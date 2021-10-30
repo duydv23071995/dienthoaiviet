@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/admin/index.html">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="content-page" layout:fragment="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="breadcrumb-holder">
+                    <h1 class="main-title float-left">Tables</h1>
+                    <ol class="breadcrumb float-right">
+                        <li class="breadcrumb-item">Home</li>
+                        <li class="breadcrumb-item active">Tables</li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h3><i class="fas fa-table"></i> Bảng Quản Lí Hãng Điện Thoại</h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <table class="table table-responsive-xl">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Mã Hãng Điện Thoại</th>
+                                <th scope="col">Tên Hãng</th>
+                                <th>Hoạt Động</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item,index : ${listCategory}">
+                                <th scope="row" th:text="${index.index+1}"></th>
+                                <td th:text="${item.id}"></td>
+                                <td th:text="${item.name}"></td>
+                                <td>
+                                    <a class="btn btn-danger"  th:onclick="'deleteCategory('+${item.id}+')'">Khóa</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <form id="category">
+                            <div class="form-group">
+                                <label for="nameCategory">Nhập Tên Hãng<span class="text-danger">*</span></label>
+                                <input type="text" name="nameCategory" placeholder="Nhập Tên Hãng"
+                                       class="form-control" id="nameCategory" required>
+                            </div>
+                            <div class="form-group text-right m-b-0">
+                                <button class="btn btn-primary" type="submit">
+                                    Xác Nhận
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- end card-->
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h3><i class="fas fa-table"></i>Bảng Quản Lí Loại Thẻ Nhớ</h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <table class="table table-responsive-xl table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Mã Thẻ Nhớ</th>
+                                <th scope="col">Tên Thẻ Nhớ</th>
+                                <th>Hoạt Động</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item,index : ${listProperties}">
+                                <th scope="row" th:text="${index.index+1}"></th>
+                                <td th:text="${item.id}"></td>
+                                <td th:text="${item.name}"></td>
+                                <td>
+                                    <a class="btn btn-danger" th:onclick="'deleteProperties('+${item.id}+')'">Khóa</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <form id="properties">
+                            <div class="form-group">
+                                <label for="nameProperties">Nhập Loại Thẻ Nhớ<span class="text-danger">*</span></label>
+                                <input type="text" name="nameProperties" placeholder="Nhập Loại Thẻ Nhớ"
+                                       class="form-control" id="nameProperties" required>
+                            </div>
+                            <div class="form-group text-right m-b-0">
+                                <button class="btn btn-primary" type="submit" >
+                                    Xác Nhận
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- end card-->
+            </div>
+        </div>
+        <!-- end row-->
+
+    </div>
+    <!-- END container-fluid -->
+    <script>
+        $(document).ready(function () {
+            addCategory();
+            addProperties();
+        })
+
+        function addCategory() {
+            $('#category').on('submit', function (e) {
+                e.preventDefault();
+                var nameCategory = $('#nameCategory').val();
+                $.ajax({
+                    url: 'category',
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        name: nameCategory
+                    }),
+                    success: function (data) {
+                        if (data == false) {
+                            alert("Lỗi thêm thất bại")
+                        } else {
+                            swal("Thêm Thành Công", "", "success").then(function (e) {
+                                if (e) window.location = "/category-properties"
+                            })
+                        }
+                    }
+                })
+            })
+        }
+        function deleteCategory(id){
+            swal({
+                title: "Are you sure?",
+                text: "Bạn có chắc muốn xóa không!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: 'category/'+id,
+                            type: "Delete",
+                            contentType: 'application/json',
+                            success: function (data) {
+                                if (data == false) {
+                                    alert("Lỗi xóa thất bại")
+                                } else {
+                                    swal("Xóa Thành Công", "", "success").then(function (e) {
+                                        if (e) window.location = "/category-properties"
+                                    })
+                                }
+                            }
+                        })
+                    }
+                });
+        }
+
+
+        function addProperties() {
+            $('#properties').on('submit', function (e) {
+                e.preventDefault();
+                var nameProperties = $('#nameProperties').val();
+                $.ajax({
+                    url: 'properties',
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        name: nameProperties
+                    }),
+                    success: function (data) {
+                        if (data == false) {
+                            alert("Lỗi thêm thất bại")
+                        } else {
+                            swal("Thêm Thành Công", "", "success").then(function (e) {
+                                if (e) window.location = "/category-properties"
+                            })
+                        }
+                    }
+                })
+            })
+        }
+        function deleteProperties(id){
+            swal({
+                title: "Are you sure?",
+                text: "Bạn có chắc muốn xóa không!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: 'properties/'+id,
+                            type: "Delete",
+                            contentType: 'application/json',
+                            success: function (data) {
+                                if (data == false) {
+                                    alert("Lỗi Xóa thất bại")
+                                } else {
+                                    swal("Xóa Thành Công", "Đã chỉnh sửa", "success").then(function (e) {
+                                        if (e) window.location = "/category-properties"
+                                    })
+                                }
+                            }
+                        })
+                    }
+                });
+        }
+    </script>
+</div>
+
+</body>
+
+</html>

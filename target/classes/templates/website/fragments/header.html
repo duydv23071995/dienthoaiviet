@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:fragment="headerWebsite">
+    <div class="header-top-area bg-gray text-center text-md-left">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-5">
+                    <div class="header-call-action">
+                        <a href="#">
+                            <i class="fa fa-envelope"></i>
+                            duydvph12712@fpt.edu.vn
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-phone"></i>
+                            0123456789
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-7">
+                    <div class="header-top-right float-md-right float-none">
+                        <nav>
+                            <ul>
+                                <li>
+<!--                                <li>-->
+<!--                                    <span class="language-selector-wrapper">Ngôn Ngữ :</span>-->
+<!--                                    <div class="ht-language-trigger"><span>Tiếng Việt</span></div>-->
+<!--                                    <div class="language ht-language">-->
+<!--                                        <ul class="ht-setting-list">-->
+<!--                                            <li>-->
+<!--                                                <a href="#" onclick="doGTranslate('vi|vi');return false;" title="Tiếng Việt" class="gflag nturl"-->
+<!--                                                ><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Flag_of_North_Vietnam_%281955%E2%80%931976%29.svg/230px-Flag_of_North_Vietnam_%281955%E2%80%931976%29.svg.png"-->
+<!--                                                      style="width: 25px"-->
+<!--                                                      alt="English"/> Tiếng Việt</a>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <a href="#" onclick="doGTranslate('vi|zh-CN');return false;" title="Tiếng Trung" class="gflag nturl"-->
+<!--                                                ><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/225px-Flag_of_the_People%27s_Republic_of_China.svg.png"-->
+<!--                                                      style="width: 25px"-->
+<!--                                                      alt="English"/> Tiếng Trung</a>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <a href="#" onclick="doGTranslate('vi|en');return false;" title="Tiếng Anh" class="gflag nturl"-->
+<!--                                                ><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Flag_of_the_United_Kingdom.svg/300px-Flag_of_the_United_Kingdom.svg.png"-->
+<!--                                                      style="width: 25px"-->
+<!--                                                      alt="English"/> Tiếng Anh</a>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <a href="#" onclick="doGTranslate('vi|ko');return false;" title="Tiếng Hàn" class="gflag nturl"-->
+<!--                                                ><img src="https://globalmap.edu.vn/wp-content/uploads/2020/10/flag_of_the_provisional_government_of_the_republic_of_korea-svg.png"-->
+<!--                                                      style="width: 25px"-->
+<!--                                                      alt="English"/> Tiếng Hàn</a>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <a href="#" onclick="doGTranslate('vi|ja');return false;" title="Tiếng Nhật" class="gflag nturl"-->
+<!--                                                ><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Japan.svg/225px-Flag_of_Japan.svg.png"-->
+<!--                                                      style="width: 25px"-->
+<!--                                                      alt="English"/> Tiếng Nhật</a>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+
+<!--                                    </div>-->
+<!--                                </li>-->
+                                    <div class="dropdown header-top-dropdown">
+                                        <a class="dropdown-toggle" id="myaccount" data-toggle="dropdown"
+                                           aria-haspopup="true" aria-expanded="false">
+                                            Ngôn Ngữ :
+                                            <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="myaccount">
+                                            <a class="dropdown-item" href="#" onclick="doGTranslate('vi|vi');return false;" title="Tiếng Việt" >
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Flag_of_North_Vietnam_%281955%E2%80%931976%29.svg/230px-Flag_of_North_Vietnam_%281955%E2%80%931976%29.svg.png"
+
+                                                                                                                                                     style="width: 25px" alt="English"/>Tiếng việt</a>
+                                            <a href="#" onclick="doGTranslate('vi|zh-CN');return false;" title="Tiếng Trung" class="dropdown-item"
+                                            ><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/225px-Flag_of_the_People%27s_Republic_of_China.svg.png"
+                                                  style="width: 25px"
+                                                  alt="English"/> Tiếng Trung</a>
+                                            <a href="#" onclick="doGTranslate('vi|en');return false;" title="Tiếng Anh" class="dropdown-item"
+                                            ><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Flag_of_the_United_Kingdom.svg/300px-Flag_of_the_United_Kingdom.svg.png"
+                                                  style="width: 25px"
+                                                  alt="English"/> Tiếng Anh</a>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header top end -->
+
+    <!-- header middle start -->
+    <div class="header-middle-area pt-20 pb-20">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-3">
+                    <div class="brand-logo">
+                        <a href="/dienthoaiviet">
+                            <img src="/website/assets/img/logo/logo.png" alt="brand logo">
+                        </a>
+                    </div>
+                </div> <!-- end logo area -->
+                <div class="col-lg-9">
+                    <div class="header-middle-right">
+                        <div class="header-middle-shipping mb-20">
+                            <div class="single-block-shipping">
+                                <div class="shipping-icon">
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+                                <div class="shipping-content">
+                                    <h5>Thời gian mở cửa</h5>
+                                    <span>Sáng - Tối: 8.00 - 21.00</span>
+                                </div>
+                            </div> <!-- end single shipping -->
+                            <div class="single-block-shipping">
+                                <div class="shipping-icon">
+                                    <i class="fa fa-truck"></i>
+                                </div>
+                                <div class="shipping-content">
+                                    <h5>Giao hàng miễn phí</h5>
+                                    <span>cho đơn hàng trên 10 triệu</span>
+                                </div>
+                            </div> <!-- end single shipping -->
+                            <div class="single-block-shipping">
+                                <div class="shipping-icon">
+                                    <i class="fa fa-money"></i>
+                                </div>
+                                <div class="shipping-content">
+                                    <h5>Ưu đãi lớn</h5>
+                                    <span>Bảo hàng 2 năm, trả góp 0%</span>
+                                </div>
+                            </div> <!-- end single shipping -->
+                        </div>
+                        <div class="header-middle-block">
+                            <div class="header-middle-searchbox">
+                                <input id="keyWord" type="text" placeholder="Search...">
+                                <button onclick="searchKeyword()" class="search-btn"><i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="header-mini-cart">
+                                <div class="mini-cart-btn">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span class="cart-notification" id="headerQuantity"
+                                          th:text="${listProductCart.size()}"></span>
+                                </div>
+                                <div class="cart-total-price">
+                                    <span>Tổng tiền</span>
+                                    <span id="headerSum"
+                                          th:text="*{#numbers.formatDecimal(sumMoneyProductCart, 0, 'COMMA', 0, 'POINT')+'đ'}"></span>
+                                </div>
+                                <ul id="listHeaderProduct" class="cart-list">
+                                    <li th:each="item:${listProductCart}">
+                                        <div class="cart-img">
+                                            <a><img th:src="${item.products.image}"
+                                                    alt=""></a>
+                                        </div>
+                                        <div class="cart-info">
+                                            <h4><a th:text="${item.products.name}"></a></h4>
+                                            <strike th:if="${item.products.discout>0}"
+                                                    th:text="*{#numbers.formatDecimal(item.products.price, 0, 'COMMA', 0, 'POINT')+'đ'}"></strike>
+                                            <span class="regular-price"
+                                                  th:text="*{#numbers.formatDecimal(item.products.hostSale(), 0, 'COMMA', 0, 'POINT')+'đ'}"></span>
+                                        </div>
+                                        <div class="del-icon">
+                                            <i class="fa fa-times"><span th:text="${item.quantity}"></span></i>
+
+                                        </div>
+                                    </li>
+                                    <li class="mini-cart-price">
+                                        <span class="subtotal">Tổng tiền : </span>
+                                        <span class="text-danger"
+                                              th:text="*{#numbers.formatDecimal(sumMoneyProductCart, 0, 'COMMA', 0, 'POINT')+'đ'}"></span>
+                                    </li>
+                                    <li class="checkout-btn">
+                                        <a href="/dienthoaiviet/cart">Đặt Hàng</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header middle end -->
+
+    <!-- main menu area start -->
+    <div class="main-header-wrapper bdr-bottom1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-header-inner">
+                        <div class="category-toggle-wrap">
+                            <div class="category-toggle">
+                                Danh mục sản phẩm
+                                <div class="cat-icon">
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </div>
+                            <nav class="category-menu hm-1" th:style="${checkMenu}?'display:block':'display:none'">
+
+                                <ul>
+                                    <li><a href="shop-grid-left-sidebar.html"><i class="fa fa-desktop"></i>
+                                        Máy tính</a></li>
+                                    <li class="menu-item-has-children"><a href="shop-grid-left-sidebar.html"><i
+                                            class="fa fa-camera"></i> camera</a>
+                                        <!-- Mega Category Menu Start -->
+                                        <ul class="category-mega-menu">
+                                            <li class="menu-item-has-children">
+                                                <a href="shop-grid-left-sidebar.html">Hãng</a>
+                                                <ul>
+                                                    <li><a href="shop-grid-left-sidebar.html">Hikvison</a></li>
+                                                    <li><a href="shop-grid-left-sidebar.html">Dahua</a></li>
+                                                    <li><a href="shop-grid-left-sidebar.html"></a>Kbvison</li>
+                                                    <li><a href="shop-grid-left-sidebar.html">ViệtMap</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children">
+                                                <a href="shop-grid-left-sidebar.html">Hệ thống</a>
+                                                <ul>
+                                                    <li><a href="shop-grid-left-sidebar.html">Bộ </a></li>
+                                                    <li><a href="shop-grid-left-sidebar.html">Trọn gói</a></li>
+                                                    <li><a href="shop-grid-left-sidebar.html">Đầu ghi</a></li>
+                                                    <li><a href="shop-grid-left-sidebar.html">Góc khuất</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children">
+                                                <a href="shop-grid-left-sidebar.html">Hành trình</a>
+                                                <ul>
+                                                    <li><a href="shop-grid-left-sidebar.html">Góc rộng</a>
+                                                    </li>
+                                                    <li><a href="shop-grid-left-sidebar.html">Full Hd</a>
+                                                    </li>
+                                                    <li><a href="shop-grid-left-sidebar.html">Chống chói</a></li>
+                                                    <li><a href="shop-grid-left-sidebar.html">Chống nước</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul><!-- Mega Category Menu End -->
+                                    </li>
+                                    <li class="menu-item-has-children"><a href="shop-grid-left-sidebar.html"><i
+                                            class="fa fa-book"></i> Điện thoại</a>
+                                        <!-- Mega Category Menu Start -->
+                                        <ul class="category-mega-menu">
+                                            <li class="menu-item-has-children">
+                                                <a href="shop-grid-left-sidebar.html">Hãng</a>
+                                                <ul>
+                                                    <li th:each="item: ${categorywebstie}"><a
+                                                            th:href="@{'/dienthoaiviet/category/'+${item.id}}"
+                                                            th:text="${item.name}"></a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children">
+                                                <a href="shop-grid-left-sidebar.html">Dung lượng</a>
+                                                <ul>
+                                                    <li th:each="item: ${properties}"><a
+                                                            th:href="@{'/dienthoaiviet/properties'+${item.id}}"
+                                                            th:text="${item.name}"></a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children">
+                                                <a href="shop-grid-left-sidebar.html">Tai nghe</a>
+                                                <ul>
+                                                    <li ><a>Không dây</a>
+                                                    </li>
+                                                    <li ><a>Có dây</a>
+                                                    </li>
+                                                    <li ><a>Chống ồn</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children">
+                                                <a href="shop-grid-left-sidebar.html">Ốp lưng</a>
+                                                <ul>
+                                                    <li ><a>Chống nươc</a>
+                                                    </li>
+                                                    <li ><a>Có dây</a>
+                                                    </li>
+                                                    <li ><a>Silocon</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+                                        </ul><!-- Mega Category Menu End -->
+                                    </li>
+                                    <li><a href="shop-grid-left-sidebar.html"><i class="fa fa-clock-o"></i>
+                                        Đồng hồ</a></li>
+                                    <li><a href="shop-grid-left-sidebar.html"><i class="fa fa-television"></i>
+                                        Tivi</a></li>
+                                    <li><a href="shop-grid-left-sidebar.html"><i class="fa fa-tablet"></i>
+                                        Máy tính bảng</a></li>
+                                    </li>
+                                    <li><a href="shop-grid-left-sidebar.html"><i class="fa fa-microchip"></i>
+                                        Máy ghi âm</a></li>
+                                    <li><a href="shop-grid-left-sidebar.html"><i class="fa fa-bullhorn"></i>
+                                        Loa</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="main-menu">
+                            <nav id="mobile-menu">
+                                <ul>
+                                    <li class="active"><a href="/dienthoaiviet"><i class="fa fa-home"></i>Home <i
+                                            class="fa fa-angle-down"></i></a>
+                                    </li>
+                                    <li class="static"><a href="#">Phụ kiện<i class="fa fa-angle-down"></i></a>
+                                    </li>
+                                    <li><a href="#">Khuyến mại <i class="fa fa-angle-down"></i></a>
+<!--                                        <ul class="dropdown">-->
+<!--                                            <li><a href="#">shop grid layout <i class="fa fa-angle-right"></i></a>-->
+<!--                                                <ul class="dropdown">-->
+<!--                                                    <li><a href="shop-grid-left-sidebar.html">shop grid left-->
+<!--                                                        sidebar</a></li>-->
+<!--                                                    <li><a href="shop-grid-left-sidebar-3-col.html">left-->
+<!--                                                        sidebar 3 col</a></li>-->
+<!--                                                    <li><a href="shop-grid-right-sidebar.html">shop grid right-->
+<!--                                                        sidebar</a></li>-->
+<!--                                                    <li><a href="shop-grid-right-sidebar-3-col.html">grid right-->
+<!--                                                        sidebar 3 col</a></li>-->
+<!--                                                    <li><a href="shop-grid-full-3-col.html">shop grid full 3-->
+<!--                                                        column</a></li>-->
+<!--                                                    <li><a href="shop-grid-full-4-col.html">shop grid full 4-->
+<!--                                                        column</a></li>-->
+<!--                                                </ul>-->
+<!--                                            </li>-->
+<!--                                            <li><a href="#">shop list layout <i class="fa fa-angle-right"></i></a>-->
+<!--                                                <ul class="dropdown">-->
+<!--                                                    <li><a href="shop-list-left-sidebar.html">shop list left-->
+<!--                                                        sidebar</a></li>-->
+<!--                                                    <li><a href="shop-list-right-sidebar.html">shop list right-->
+<!--                                                        sidebar</a></li>-->
+<!--                                                    <li><a href="shop-list-full.html">shop list full width</a></li>-->
+<!--                                                </ul>-->
+<!--                                            </li>-->
+<!--                                            <li><a href="#">products details <i class="fa fa-angle-right"></i></a>-->
+<!--                                                <ul class="dropdown">-->
+<!--                                                    <li><a href="product-details.html">product details</a></li>-->
+<!--                                                    <li><a href="product-details-affiliate.html">product-->
+<!--                                                        details-->
+<!--                                                        affiliate</a></li>-->
+<!--                                                    <li><a href="product-details-variable.html">product details-->
+<!--                                                        variable</a></li>-->
+<!--                                                    <li><a href="product-details-group.html">product details-->
+<!--                                                        group</a></li>-->
+<!--                                                    <li><a href="product-details-box.html">product details box-->
+<!--                                                        slider</a></li>-->
+<!--                                                </ul>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+                                    </li>
+                                    <li><a href="#">Hỏi đáp <i class="fa fa-angle-down"></i></a>
+<!--                                        <ul class="dropdown">-->
+<!--                                            <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>-->
+<!--                                            <li><a href="blog-left-sidebar-2-col.html">blog left sidebar 2 col</a>-->
+<!--                                            </li>-->
+<!--                                            <li><a href="blog-right-sidebar.html">blog right sidebar</a></li>-->
+<!--                                            <li><a href="blog-full-2-column.html">blog full 2 column</a></li>-->
+<!--                                            <li><a href="blog-full-3-column.html">blog full 3 column</a></li>-->
+<!--                                            <li><a href="blog-details.html">blog details</a></li>-->
+<!--                                            <li><a href="blog-details-audio.html">blog details audio</a></li>-->
+<!--                                            <li><a href="blog-details-video.html">blog details video</a></li>-->
+<!--                                            <li><a href="blog-details-image.html">blog details image</a></li>-->
+<!--                                        </ul>-->
+                                    </li>
+                                    <li><a type="button" data-toggle="modal" data-target="#exampleModal">Lịch sử</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 d-block d-lg-none">
+                    <div class="mobile-menu"></div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function searchKeyword() {
+                var key = document.getElementById("keyWord").value;
+                if (key != "") {
+                    window.location.href = "/dienthoaiviet/tim-kiem/" + key;
+                }
+            }
+        </script>
+    </div>
+    <!-- main menu area end -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nhập số điện thoại</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label> Mời nhập số điện thoại mua hàng</label>
+                    <div class="header-middle-searchbox">
+                        <input id="sodienthoai" type="text">
+                    </div>
+                    <p id="errorNhapsdt" class="text-danger"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="kiemTraSoDienThoai()">Kiểm tra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function kiemTraSoDienThoai() {
+            var phoneNumber = document.getElementById("sodienthoai").value;
+            var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+            $('#errorNhapsdt').text("");
+            if (phoneNumber == "") {
+                $('#errorNhapsdt').text("Bạn chưa nhập số điện thoại");
+                return
+            } else if (vnf_regex.test(phoneNumber) == false) {
+                $('#errorNhapsdt').text("Số điện thoại sai định dạng");
+                return;
+            }
+            $.ajax({
+                url: '/dienthoaiviet/cart/checkPhone/' + phoneNumber,
+                type: "GET",
+                success: function (data) {
+                    console.log(data)
+                    if (data == "no phone") {
+                        $('#errorNhapsdt').text("Số điện thoại không đúng, mời nhập lại");
+                    } else {
+                        window.location = "/dienthoaiviet/cart/history/"+phoneNumber
+                    }
+                }
+            })
+        }
+    </script>
+</header>
+</body>
+</html>

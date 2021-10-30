@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/admin/index.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<
+<div class="content-page" layout:fragment="content">
+
+    <!-- Start content -->
+    <div class="content">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="breadcrumb-holder">
+                        <h1 class="main-title float-left"> Quản Lí Sản Phẩm</h1>
+                        <ol class="breadcrumb float-right">
+                            <div class="card-header">
+                                <button type="button" class="btn btn-primary">
+                                    <em class="fa-2x mr-2 fas fa-calculator"></em><a class="btn btn-primary"
+                                                                       href="/products/add">Thêm
+                                    Sản Phẩm</a></button>
+                            </div>
+                        </ol>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h3><i class="fas fa-table"></i>Bảng Nhân Viên</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="dataTable1" class="table table-striped table-bordered zero-configuration">
+                                    <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã Sản Phẩm</th>
+                                        <th>Tên Sản Phẩm</th>
+                                        <th>Giá Nhập</th>
+                                        <th>Giá Bán</th>
+                                        <th>Giá Giảm</th>
+                                        <th>Dung Lượng</th>
+                                        <th>Hãng</th>
+                                        <th>Hoạt động</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item,index:${listProducts}">
+                                        <td th:text="${index.index +1}"></td>
+                                        <td th:text="${item.id}"></td>
+                                        <td th:text="${item.name}"></td>
+                                        <td th:text="${item.importprice}"></td>
+                                        <td th:text="${item.price}"></td>
+                                        <td th:text="${item.discout}"></td>
+                                        <td th:text="${item.properties.name}"></td>
+                                        <td th:text="${item.category.name}"></td>
+                                        <td>
+                                            <a th:href="@{'/products/'+${item.id}}"
+                                               style="width: 20px"><i class="far fa-edit"></i></a>
+                                            <a type="button" th:attr="onclick=|deleteProduct('${item.id}')|"
+                                            ><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                                <!-- Modal -->
+                            </div>
+                            <!-- end table-responsive-->
+
+                        </div>
+                        <!-- end card-body-->
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+<script>
+    function deleteProduct(id){
+        swal({
+            title: "Are you sure?",
+            text: "Bạn có chắc muốn xóa sản phẩm không!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: 'products/'+id,
+                        type: "Delete",
+                        contentType: 'application/json',
+                        success: function (data) {
+                            if (data == "no product") {
+                                alert("Lỗi xóa thất bại")
+                            } else {
+                                swal("Xóa Thành Công", "", "success").then(function (e) {
+                                    if (e) window.location = "/products"
+                                })
+                            }
+                        }
+                    })
+                }
+            });
+    }
+</script>
+</div>
+</body>
+</html>

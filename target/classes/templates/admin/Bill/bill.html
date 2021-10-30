@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/admin/index.html">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div class="content-page" layout:fragment="content">
+
+  <!-- Start content -->
+  <div class="content">
+
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="breadcrumb-holder">
+            <h1 class="main-title float-left"> Quản lí đơn hàng chờ xác nhận</h1>
+            <ol class="breadcrumb float-right">
+                <div class="card-header">
+                  <a class="btn btn-primary" href="/bill">Chờ xác Nhận </a>
+                </div>
+                <div class="card-header">
+                  <a class="btn btn-primary" href="/bill/transpost" >Chưa Thanh Toán </a>
+                </div>
+                <div class="card-header">
+                  <a class="btn btn-primary" href="/bill/voice" >Đã Hoàn Thành</a>
+                </div>
+            </ol>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+
+      <div class="row">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <div class="card mb-3">
+            <div class="card-header">
+              <h3><i class="fas fa-table"></i>Bảng hoa đơn chờ xác nhận</h3>
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="dataTable1" class="table table-striped table-bordered zero-configuration">
+                  <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Mã Hóa Đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Ngày mua hàng</th>
+                    <th>Khuyến mại</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Hoạt động</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="item,index:${listBIllCXN}" th:id="${item.id}">
+                    <td th:text="${index.index +1}"></td>
+                    <td th:text="HD000+${item.id}"></td>
+                    <td th:text="${item.customer.fullName}"></td>
+                    <td th:text="${item.convertDate()}"></td>
+                    <td th:text="${item.voucher == null ? '0đ': item.voucher.conver_value}"></td>
+                    <td  th:text="*{#numbers.formatDecimal(item.sumMoney, 0, 'COMMA', 0, 'POINT')+'đ'}">
+                    <td th:text="${item.status ==0 ? 'Chưa thanh toán': 'Đã thanh toán'}"></td>
+
+                    </td>
+                    <td>
+                      <a th:onclick="'deleteStaff('+${item.id}+')'"  class="btn btn-secondary ">Xem</a>
+                      <a th:onclick="'huyDonHang('+${item.id}+')'"  class="btn btn-danger">Huy</a>
+                      <a th:onclick="'xacNhanDonHang('+${item.id}+')'" class="btn btn-primary ">Xác Nhận</a>
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table>
+                <!-- Modal -->
+              </div>
+              <!-- end table-responsive-->
+
+            </div>
+            <!-- end card-body-->
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div id="showProduct" class="modal fade bd-example-modal-lg show" style="display: none" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Chi tiết nhập sản phẩm</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Tên khách hàng : <p id="people"></p>
+          Ngày mua hàng :  <p id="day"></p>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="loadData" class="table table-responsive-xl" >
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-secondary" onclick="closeModal()" data-dismiss="modal">đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function xacNhanDonHang(id){
+      $.ajax({
+        url: 'bill/details' ,
+        type: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify({
+          id: id,
+          status:"xacnhan"
+        }),
+        success: function (data) {
+          if(data=="no quantity"){
+            swal({
+              title: "Are you sure?",
+              text: "Không đủ số lượng sản phẩm giao cho khách!",
+              icon: "warning",
+              dangerMode: true,
+            })
+            return;
+          }
+          $('#'+id).remove();
+        }
+      })
+    }
+    function huyDonHang(id){
+      $.ajax({
+        url: 'bill/details' ,
+        type: "Delete",
+        contentType: 'application/json',
+        data: JSON.stringify({
+          id: id,
+          status:"xacnhan"
+        }),
+        success: function (data) {
+          $('#'+id).remove();
+        }
+      })
+    }
+  </script>
+  <script>
+    function closeModal(){
+      $("#showProduct").hide()
+      $("#showProduct tr").remove()
+      $('#people').text("")
+      $('#day').text("")
+    }
+    function deleteStaff(id) {
+      $.ajax({
+        url: 'bill/details/' + id,
+        type: "GET",
+        success: function (data) {
+          if(data=="no product"){
+            swal({
+              title: "Are you sure?",
+              text: "Không có sản phẩm nào!",
+              icon: "warning",
+              dangerMode: true,
+            })
+          }else {
+            var str ="<thead>\n" +
+                    "                  <th>#</th>\n" +
+                    "                  <th>Tên Sản Phẩm</th>\n" +
+                    "                  <th>Màu Sắc</th>\n" +
+                    "                  <th>Số lượng</th>\n" +
+                    "                  <th>Giá bán</th>\n" +
+                    "                  <th>Giảm giá</th>\n" +
+                    "                  <th>Thành tiền</th>\n" +
+                    "                </thead>\n" +
+                    "                <tbody >";
+            $.each(data,function (i,item){
+              str+= "<tr>";
+              str+= "<td>"+ (i+1)+"</td>"
+              str+="<td>"+ item.products_details.products.name+"</td>";
+              str+="<td>"+ item.products_details.color+"</td>";
+              str+="<td>"+ item.quantity+"</td>";
+              str+="<td>"+money( item.products_details.products.price)+"</td>";
+              str+="<td>"+ item.products_details.products.discout+"</td>";
+              str+="<td>"+money(item.quantity*item.products_details.products.price*(1-item.products_details.products.discout/100.0)) +"</td>";
+              str+="<tr>";
+
+              // str+="<td>"+ item.quantity+"</td>";
+              // str+="<td>"+ item.quantity+"</td>";
+            })
+            str+=" </tbody>"
+            var people = data[0].bill.customer.fullName;
+            var day = data[0].bill.day;
+            $('#people').text(people)
+            $('#day').text(day)
+            $('#loadData').append("")
+            $('#loadData').append(str)
+            $('#showProduct').show()
+          }
+        }
+      })
+    }
+    function money(b) {
+
+      const value = Number(b);
+      const money = value.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+      });
+      return money.replaceAll(".",",").replaceAll("₫","đ")
+    }
+  </script>
+
+</div>
+</body>
+</html>

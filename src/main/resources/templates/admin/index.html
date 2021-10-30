@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en">
+
+<head>
+    <title>Nura Admin - Dashboard</title>
+    <meta name="description" content="Dashboard | Nura Admin">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Your website">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/admin/assets/images/favicon.ico">
+
+    <!-- Bootstrap CSS -->
+    <link href="/admin/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/admin/assets/css/imageAll.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Font Awesome CSS -->
+    <link href="/admin/assets/font-awesome/css/all.css" rel="stylesheet" type="text/css"/>
+
+    <!-- Custom CSS -->
+    <link href="/admin/assets/css/style.css" rel="stylesheet" type="text/css"/>
+
+    <!-- BEGIN CSS for this page -->
+    <link rel="stylesheet" type="text/css" href="/admin/assets/plugins/chart.js/Chart.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/admin/assets/plugins/datatables/datatables.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+    <script src="/admin/ckeditor/ckeditor.js"></script>
+
+</head>
+
+<body class="adminbody">
+
+<div id="main">
+    <!-- top bar navigation -->
+    <div th:replace="admin/fragments/header:: header"></div>
+    <!-- End Navigation -->
+
+    <!-- Left Sidebar -->
+    <div th:replace="admin/fragments/slidebar:: slidebar"></div>
+    <!-- End Sidebar -->
+
+    <div layout:fragment="content"></div>
+    <!-- END content-page -->
+
+   <div th:replace="admin/fragments/footer:: footer"></div>
+
+    <script src="/admin/assets/js/modernizr.min.js"></script>
+    <script src="/admin/assets/js/jquery.min.js"></script>
+    <script src="/admin/assets/js/moment.min.js"></script>
+
+    <script src="/admin/assets/js/popper.min.js"></script>
+    <script src="/admin/assets/js/bootstrap.min.js"></script>
+
+    <script src="/admin/assets/js/detect.js"></script>
+    <script src="/admin/assets/js/fastclick.js"></script>
+    <script src="/admin/assets/js/jquery.blockUI.js"></script>
+    <script src="/admin/assets/js/jquery.nicescroll.js"></script>
+
+    <!-- App js -->
+    <script src="/admin/assets/js/admin.js"></script>
+
+</div>
+<!-- END main -->
+
+<!-- BEGIN Java Script for this page -->
+<script src="/admin/assets/plugins/chart.js/Chart.min.js"></script>
+<script src="/admin/assets/plugins/datatables/datatables.min.js"></script>
+
+<!-- Counter-Up-->
+<script src="/admin/assets/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
+<script src="/admin/assets/plugins/counterup/jquery.counterup.min.js"></script>
+<script src="/admin/assets/plugins/sweetalert/sweetalert.min.js"></script>
+
+<!-- dataTabled data -->
+<script src="/admin/assets/data/data_datatables.js"></script>
+<!-- Charts data -->
+<script src="/admin/assets/data/data_charts_dashboard.js"></script>
+<script>
+    $(document).on('ready', function () {
+        // data-tables
+        $('#dataTable1').DataTable({
+        });
+    });
+</script>
+
+<!-- END Java Script for this page -->
+
+</body>
+
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/admin/index.html">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="content-page" layout:fragment="content">
+    <div class="content">
+        <form id="themnhanvien">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="breadcrumb-holder">
+                            <h1 class="main-title float-left">Thêm Nhân Viên</h1>
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="/users"><em class="fa-2x mr-2 fas fa-arrow-circle-left"></em></a></li>
+                            </ol>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h3><i class="far fa-file-image"></i> Ảnh Đại Diện</h3>
+                            </div>
+
+                            <div class="card-body text-center">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <img alt="avatar" id="img" class="img-fluid"
+                                             src="/admin/assets/images/avatars/avatar.png">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="bg-info text-white mt-3" style="height: 40px">
+                                            <label for="files" class="btn">Chọn Ảnh</label>
+                                            <input id="files" name="img" style="visibility:hidden;" type="file"
+                                                   onchange="uploadImage()" accept=".jpg,.png">
+                                        </div>
+                                        <p id="errorImage" class="text-danger"></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end card-body -->
+
+                        </div>
+                        <!-- end card -->
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9 col-xl-9">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h3><i class="far fa-user"></i>Thông tin nhân viên</h3>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Họ Tên</label>
+                                            <input class="form-control" id="fullname" name="fullName" type="text"/>
+                                        </div>
+                                        <p class="text-danger" id="errorFullname"></p>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input class="form-control" id="email" name="email" type="text"/>
+                                        </div>
+                                        <p class="text-danger" id="errorEmail"></p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                            <input class="form-control" id="password" name="password" type="password"
+                                                   value=""/>
+                                        </div>
+                                        <p class="text-danger" id="errorPassword"></p>
+                                    </div>
+
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Số Điện Thoại</label>
+                                            <input class="form-control" id="phonenumber" name="phoneNumber" type="text"
+                                                   value=""/>
+                                        </div>
+                                        <p class="text-danger" id="errorPhoneNumber"></p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Địa Chỉ</label>
+                                            <input class="form-control" id="address" name="address" type="text"
+                                                   value=""/>
+                                        </div>
+                                        <p class="text-danger" id="errorAddress"></p>
+                                    </div>
+
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Ngày Sinh</label>
+                                            <input class="form-control" id="birthday" name="birthDay1" type="date"
+                                                   value=""/>
+                                        </div>
+                                        <p class="text-danger" id="errorbirthday"></p>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Lương</label>
+                                            <input class="form-control" id="salary" name="salary" type="text"/>
+                                        </div>
+                                        <p class="text-danger" id="errorSalary"></p>
+                                    </div>
+
+
+                                    <div class="form-group col-md-6">
+                                        <label>Chức Vụ</label>
+                                        <select id="role" class="form-control" name="chucVu">
+                                            <option value=""> Chọn Chức Vụ</option>
+                                            <option th:each="item : ${listRole}"
+                                                    th:value="${item.id}"
+                                                    th:text="${item.name}"></option>
+                                        </select>
+                                        <p class="text-danger" id="errorRole"></p>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label>Giới Tính: </label>
+                                            <label class="form-check form-check-inline">
+                                                <input class="form-check-input" id="nam" type="radio" name="gender"
+                                                       value="true">
+                                                <span class="form-check-label"> Nam </span>
+                                            </label>
+                                            <label class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="nu"
+                                                       value="false">
+                                                <span class="form-check-label"> Nữ</span>
+                                            </label>
+                                            <p class="text-danger" id="errorGender"></p>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <hr>
+                                        <button class="btn btn-primary" type="submit">Thêm Nhân Viên</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end card-body -->
+
+                        </div>
+                        <!-- end card -->
+
+                    </div>
+                    <!-- end col -->
+
+
+                    <!-- end col -->
+
+
+                </div>
+                <!-- end row -->
+
+
+            </div>
+            <!-- END container-fluid -->
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            addStaff();
+        })
+
+        function addStaff() {
+            $('#themnhanvien').on("submit", function (e) {
+                e.preventDefault();
+                var image = $('#img').attr("src");
+                var file = $('#files').val();
+                var fullName = $('#fullname').val();
+                var address = $('#address').val();
+                var password = $('#password').val();
+                var email = $('#email').val();
+                var phoneNumber = $('#phonenumber').val();
+                var salary = $('#salary').val();
+                var birthday = $('#birthday').val();
+                var role_id = $('#role').val();
+                var check = true;
+                $('#errorFullname').text("");
+                $('#errorAddress').text("");
+                $('#errorbirthday').text("");
+                $('#errorEmail').text("");
+                $('#errorPhoneNumber').text("");
+                $('#errorImage').text("");
+                $('#errorSalary').text("");
+                $('#errorGender').text("");
+                $('#errorPassword').text("");
+                $('#errorRole').text("");
+                if (fullName == "") {
+                    $('#errorFullname').text("Bạn chưa nhập họ tên");
+                    check = false;
+                }
+                if (address == "") {
+                    $('#errorAddress').text("Bạn chưa nhập địa chỉ");
+                    check = false;
+                }
+                if (password == "") {
+                    $('#errorPassword').text("Bạn chưa nhập password");
+                    check = false;
+                }
+                if (birthday == "") {
+                    $('#errorbirthday').text("Bạn chưa nhập ngày sinh");
+                    check = false;
+                }
+
+                if (salary == "") {
+                    $('#errorSalary').text("Bạn chưa nhập lương");
+                    check = false
+                } else if (Number(salary) < 1000) {
+                    $('#errorSalary').text("Bạn chưa nhập lương lớn hơn 1000đ");
+
+                }
+                if ($('#nu').prop("checked") == false && $('#nam').prop("checked") == false) {
+                    $('#errorGender').text("Bạn chưa chọn giới tính");
+                    check = false;
+                }
+                var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+                if (phoneNumber == "") {
+                    $('#errorPhoneNumber').text("Bạn chưa nhập số điện thoại");
+                    check = false;
+                } else if (vnf_regex.test(phoneNumber) == false) {
+                    $('#errorPhoneNumber').text("Số điện thoại sai định dạng");
+                    check = false;
+                }
+                var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+                if (email == "") {
+                    $('#errorEmail').text("Bạn chưa nhập email");
+                    check = false;
+                } else if (emailReg.test(email) == false) {
+                    $('#errorEmail').text("Email sai định dạng");
+                    check = false;
+                }
+                if (file == "") {
+                    $('#errorImage').text("Bạn chưa chon ảnh đại diện");
+                    check = false;
+                }
+                if (role_id == "") {
+                    $('#errorRole').text("Bạn chưa chọn chức vụ");
+                    check = false;
+                }
+                if (check == true) {
+                    var birtday = birthday.substring(birthday.lastIndexOf('/') + 1) + '-' + birthday.substring(0, birthday.lastIndexOf('/')).replaceAll('/', '-');
+                    var gender = true;
+                    if ($('#nu').prop("checked")) {
+                        gender = false;
+                    }
+                    $.ajax({
+                        url: '/users',
+                        type: "POST",
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            fullName: fullName,
+                            password: password,
+                            image: image,
+                            address: address,
+                            salary: salary,
+                            role_id: role_id,
+                            gender: gender,
+                            email: email,
+                            phoneNumber: phoneNumber,
+                            birthDay: birthday
+
+                        }),
+                        success: function (data) {
+
+                            if (data == "same email same phone ") {
+                                document.getElementById('errorEmail').innerHTML = "Trùng Email";
+                                document.getElementById('errorPhoneNumber').innerHTML = "Trùng số điện thoại";
+                            } else if (data == "same phone ") {
+                                document.getElementById('errorPhoneNumber').innerHTML = "Trùng số điện thoại";
+                            } else if (data == "same email ") {
+                                document.getElementById('errorEmail').innerHTML = "Trùng Email";
+                            } else {
+                                alert("Thêm nhân viên thành công");
+                                window.location.href="http://localhost:8081/users";
+                            }
+                        }
+                    })
+                }
+            })
+
+        }
+    </script>
+    <script>
+        const files = document.querySelector("#files");
+        const reader = new FileReader();
+        files.addEventListener("change", (evt) => {
+
+            const files = evt.target.files;
+            console.log(files)
+            reader.readAsDataURL(files[0])
+            reader.addEventListener("load", (evt) => {
+                const url = evt.target.result
+                document.getElementById("img").src = url;
+            })
+        })
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbtfe5n8xyyLGwd-J3mniReezm8eIQL3A",
+            authDomain: "dienthoaiviet-31523.firebaseapp.com",
+            projectId: "dienthoaiviet-31523",
+            storageBucket: "dienthoaiviet-31523.appspot.com",
+            messagingSenderId: "888604147878",
+            appId: "1:888604147878:web:233b995dc7bba2d6337467",
+            measurementId: "G-Z16SNFRZ53"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig)
+
+        function uploadImage() {
+            const ref = firebase.storage().ref();
+            const file = document.querySelector("#files").files[0];
+
+            const name = +new Date() + "-" + file.name;
+            const metadata = {
+                contentType: file.type
+            };
+            const task = ref.child(name).put(file, metadata);
+            task.then(snapshot => snapshot.ref.getDownloadURL())
+                .then(url => {
+                    a = url;
+                    console.log(a)
+                    document.querySelector("#img").src = url;
+                })
+        }
+    </script>
+</div>
+
+</body>
+
+</html>

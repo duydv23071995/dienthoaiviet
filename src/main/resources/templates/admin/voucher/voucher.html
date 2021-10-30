@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/admin/index.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="content-page" layout:fragment="content">
+
+    <!-- Start content -->
+    <div class="content">
+
+        <div class="container-fluid">
+
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="breadcrumb-holder">
+                        <h1 class="main-title float-left">Quản Lí Voucher</h1>
+                        <ol class="breadcrumb float-right">
+                            <li class="breadcrumb-item">Trang chủ</li>
+                            <li class="breadcrumb-item active">Khách hàng</li>
+                        </ol>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                                    <span class="pull-right">
+                                        <button type="button" class="btn btn-primary">
+                                    <i class="fas fa-user-plus"></i><a class="btn btn-primary"
+                                                                       href="/users/themnhanvien">Thêm
+                                    voucher</a></button>
+                                    </span>
+                            <h3>
+                                <i class="far fa-user"></i> Bảng voucher</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="">
+                                <table id="dataTable1" class="table table-striped table-bordered zero-configuration">
+                                    <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th style="width: 200px">Mã code</th>
+                                        <th style="width: 200px">giá trị</th>
+                                        <th style="width: 150px">Số lượng</th>
+                                        <th style="width: 150px">Ngày bắt đầu</th>
+                                        <th style="width: 150px">Ngày kết thúc</th>
+                                        <th>Hoạt động</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item,index:${listVoucher}">
+                                        <td th:text="${index.index +1}"></td>
+                                        <td th:text="${item.code}"></td>
+                                        <td th:text="${item.value}"></td>
+                                        <td th:text="${item.quantity}"></td>
+                                        <td th:text="${item.startDay}"></td>
+                                        <td th:text="${item.endDay}"></td>
+                                        <td>
+                                            <a th:href="@{'/users/'+${item.id}}"
+                                               style="width: 20px"><i class="far fa-edit"></i></a>
+                                            <a type="button" th:onclick="'deleteStaff('+${item.id}+')'"><i
+                                                    class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+
+                    </div>
+                    <!-- end card -->
+
+                </div>
+                <!-- end col -->
+
+            </div>
+            <!-- end row -->
+
+        </div>
+    </div>
+    <script>
+        function  show(){
+            swal("Good job!", "You clicked the button!", "success")
+        }
+    </script>
+    <script>
+        function deleteStaff(id) {
+            if (confirm("bạn có chắc chắn muốn xóa nhân viên không")) {
+                $.ajax({
+                    url: 'http://localhost:8081/users/' + id,
+                    type: "Delete",
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data == "Not staff") {
+                            alert("Lỗi Không thể xóa nhân viên")
+                        } else {
+                            swal("Thành Công", "Đã chỉnh sửa", "success").then(function (e){
+                                if(e) window.location="http://localhost:8081/users"
+                            })
+                        }
+                    }
+                })
+            }
+        }
+
+    </script>
+</div>
+</body>
+</html>

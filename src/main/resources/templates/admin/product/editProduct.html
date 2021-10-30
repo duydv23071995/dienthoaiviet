@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/admin/index.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="content-page" layout:fragment="content">
+    <div class="content" l>
+        <form  id="addProducts">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="breadcrumb-holder">
+                            <h1 class="main-title float-left">Thêm Sản Phẩm</h1>
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="/products"><em class="fa-2x mr-2 fas fa-arrow-circle-left"></em></a></li>
+                            </ol>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h3><i class="far fa-file-image"></i> Ảnh Đại Diện Sản Phẩm</h3>
+                            </div>
+
+                            <div class="card-body text-center">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <img alt="avatar" id="img" class="img-fluid"
+                                             th:src="${product.image}">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="bg-info text-white mt-3" style="height: 40px">
+                                            <label for="files" class="btn">Chọn Ảnh Banner</label>
+                                            <input id="files" name="photo_banner" onchange="uploadImagBanner()" style="visibility:hidden;" type="file" >
+                                        </div>
+                                        <p class="text-danger" id="errorPhoto_banner"></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end card-body -->
+
+                        </div>
+                        <!-- end card -->
+                        <div class="card mb-3">
+                            <div class="wrap">
+                                <h4>Chọn Thêm Ảnh</h4>
+                                <div class="dandev-reviews">
+                                    <div class="form_upload">
+                                        <label class="dandev_insert_attach"><span>Đính kèm ảnh</span></label>
+                                    </div>
+                                    <div class="list_attach" >
+                                        <ul class="dandev_attach_view">
+                                                <li th:each="item:${listImageProduct}" id="li_files_1627561204406" class="">
+                                                    <div class="img-wrap">
+                                                        <span class="close" onclick="DelImg(this)">×</span>
+                                                        <div class="img-wrap-box">
+                                                            <img th:src="${item.name}">
+
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                        </ul>
+                                        <span class="dandev_insert_attach"><i class="dandev-plus">+</i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9 col-xl-9">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h3><i class="far fa-user"></i>Thông tin sản phẩm</h3>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Mã Sản Phẩm</label>
+                                            <input class="form-control" id="idProduct" th:value="${product.id}" name="name" type="text" readonly/>
+                                        </div>
+                                        <p class="text-danger" id="errorId"></p>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Tên Sản Phẩm</label>
+                                            <input class="form-control" id="name" name="name" th:value="${product.name}" type="text"/>
+                                        </div>
+                                        <p class="text-danger" id="errorName"></p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Giá Bán</label>
+                                            <input class="form-control" id="price" name="price" th:value="${product.price}" type="number" value=""/>
+                                        </div>
+                                        <p class="text-danger" id="errorPrice"></p>
+                                    </div>
+
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Giảm Giá</label>
+                                            <input class="form-control" id="discout" name="discout" th:value="${product.discout}" type="text" value=""/>
+                                        </div>
+                                        <p class="text-danger" id="errorDiscout"></p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Giá Nhập</label>
+                                            <input class="form-control" id="importPrice" name="importPrice" th:value="${product.importprice}" type="number" value=""/>
+                                        </div>
+                                        <p class="text-danger" id="errorImportPrice" ></p>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Dung Lượng</label>
+                                        <select id="memory" class="form-control" name="properties">
+                                            <option value=""> Chọn Dung Lượng</option>
+                                            <option  th:each="item: ${listProperties}"
+                                                     th:value="${item.id}"
+                                                     th:text="${item.name}"
+                                                     th:selected="${item.id==product.properties.id}"
+                                            > </option>
+                                        </select>
+                                        <p class="text-danger" id="errorProperties"></p>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Hãng</label>
+                                        <select  class="form-control" id="categoryId" name="category">
+                                            <option value=""> Chọn Hãng</option>
+                                            <option  th:each="item: ${listCategory}"
+                                                     th:value="${item.id}"
+                                                     th:text="${item.name}"
+                                                     th:selected="${item.id==product.category.id}"
+                                            > </option>
+                                        </select>
+                                        <p class="text-danger" id="errorCategory"></p>
+                                    </div>
+
+
+
+                                    <div class="col-lg-6" id="themmau">
+                                        <label> <a type="button" id="addColor">Thêm Chi Tiết sản phẩm</a></label>
+                                        <div th:each="item:${listProductDetails}">
+                                            Màu Sắc : <input name="color" th:value="${item.color}" type="text" style="width: 100px " >
+                                            Số Lượng: <input name="quantity" th:value="${item.quantity}" type="number" style="width: 100px" min="1" readonly>
+                                        </div>
+                                        <p class="text-danger" id="errorColor"></p>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Mô Tả</label>
+                                        <textarea id="editor1" name="note" cols="80" rows="10" th:text="${product.details}">
+                   </textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <hr>
+                                        <button class="btn btn-primary"  >Sửa Sản Phẩm</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <!-- END container-fluid -->
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            addProduct();
+        })
+        function addProduct(){
+            $('#addProducts').on('submit',function (e){
+                e.preventDefault();
+                var srcNodeList = document.querySelectorAll(".img-wrap-box img")
+                var arrary = new Array();
+                for (var i = 0; i < srcNodeList.length; ++i) {
+                    var item = srcNodeList[i];
+                    arrary.push(item.getAttribute("src"))
+                }
+                var image = $('#img').attr("src");
+                var id = $('#idProduct').val();
+                var name=$('#name').val();
+                var categoryId=$('#categoryId').val();
+                var propertiesId=$('#memory').val();
+                var price = $('#price').val();
+                var importPice=$('#importPrice').val();
+                var discout = $('#discout').val();
+                var note =CKEDITOR.instances['editor1'].getData()
+                // $('#editor1').val();
+                var check = true;
+                var file = $('#files').val();
+                $('#errorId').text("");
+                $('#errorCategory').text("");
+                $('#errorName').text("");
+                $('#errorPrice').text("");
+                $('#errorImportPrice').text("");
+                $('#errorProperties').text("");
+                $('#errorDiscout').text("");
+                $('#errorPhoto_banner').text("");
+
+                if(id==""){
+                    $('#errorId').text("Id không được trống!")
+                    check=false;
+                }
+                if(name==""){
+                    $('#errorName').text("Tên sản phẩm trống!")
+                    check=false
+                }
+                if(price==""){
+                    $('#errorPrice').text("Giá Bán không được trống!")
+                    check=false;
+                }else if(Number(price)<1000){
+                    $('#errorPrice').text("Giá bán phải lơn hơn 1000 đ")
+                    check=false;
+                }
+                if(importPice==""){
+                    $('#errorImportPrice').text("Giá nhập không được trống!")
+                    check=false;
+                }else if(Number(importPice)<1000){
+                    $('#errorImportPrice').text("Giá bán phải lơn hơn 1000 đ")
+                    check=false;
+                }
+                if(discout==""){
+                    $('#errorDiscout').text("Giá nhập không được trống!")
+                    check=false;
+                }else if(Number(discout)>100||Number(discout)<0){
+                    $('#errorDiscout').text("Giá giảm nhập không hợp lệ")
+                    check=false;
+                }
+                if(categoryId==""){
+                    $('#errorCategory').text("Bạn chưa chọn hãng !")
+                    check=false
+                }
+                if(propertiesId==""){
+                    $('#errorProperties').text("bạn chưa chọn dung lượng bộ nhớ!")
+                    check=false;
+                }
+                // if(file==""){
+                //     $('#errorPhoto_banner').text("hình ảnh banner sản phẩm trống!")
+                //     check=false
+                // }
+                if(check==true){
+                    $.ajax({
+                        url: '/products/'+id,
+                        type: "PUT",
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            id: id,
+                            name: name,
+                            price:price,
+                            details: note,
+                            discout: discout,
+                            importprice: importPice,
+                            properties_id: propertiesId,
+                            category_id: categoryId,
+                            image: image,
+                            _lisImageAdd : arrary
+                        }),
+                        success: function (data) {
+                        if(data==false){
+                                alert("Thất bại");
+                            }else {
+                                swal("Thêm Thành Công", "", "success").then(function (e) {
+                                    if (e) window.location = "/products";
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+
+        }
+    </script>
+    <script type="text/javascript">
+        $('.dandev_insert_attach').click(function() {
+            if ($('.list_attach').hasClass('show-btn') === false) {
+                $('.list_attach').addClass('show-btn');
+            }
+            var _lastimg = jQuery('.dandev_attach_view li').last().find('input[type="file"]').val();
+
+            if (_lastimg != '') {
+                var d = new Date();
+                var _time = d.getTime();
+                var _html = '<li id="li_files_' + _time + '" class="li_file_hide">';
+                _html += '<div class="img-wrap">';
+                _html += '<span class="close" onclick="DelImg(this)">×</span>';
+                _html += ' <div class="img-wrap-box"></div>';
+                _html += '</div>';
+                _html += '<div class="' + _time + '">';
+                _html += '<input type="file" name="aaa" class="hidden"  onchange="uploadImg(this)" id="files_' + _time + '"   />';
+                _html += '</div>';
+                _html += '</li>';
+                jQuery('.dandev_attach_view').append(_html);
+                jQuery('.dandev_attach_view li').last().find('input[type="file"]').click();
+            } else {
+                if (_lastimg == '') {
+                    jQuery('.dandev_attach_view li').last().find('input[type="file"]').click();
+                } else {
+                    if ($('.list_attach').hasClass('show-btn') === true) {
+                        $('.list_attach').removeClass('show-btn');
+                    }
+                }
+            }
+        });
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbtfe5n8xyyLGwd-J3mniReezm8eIQL3A",
+            authDomain: "dienthoaiviet-31523.firebaseapp.com",
+            projectId: "dienthoaiviet-31523",
+            storageBucket: "dienthoaiviet-31523.appspot.com",
+            messagingSenderId: "888604147878",
+            appId: "1:888604147878:web:233b995dc7bba2d6337467",
+            measurementId: "G-Z16SNFRZ53"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig)
+        function uploadImg(el) {
+            var d = new Date();
+            var _time = d.getTime();
+            var id = "img"+_time;
+            var file_data = $(el).prop('files')[0];
+            var type = file_data.type;
+            var fileToLoad = file_data;
+
+            var fileReader = new FileReader();
+
+            fileReader.onload = function(fileLoadedEvent) {
+                var srcData = fileLoadedEvent.target.result;
+
+                var newImage = document.createElement('img');
+                newImage.src = srcData;
+                newImage.id=id;
+                var _li = $(el).closest('li');
+                if (_li.hasClass('li_file_hide')) {
+                    _li.removeClass('li_file_hide');
+                }
+                _li.find('.img-wrap-box').append(newImage.outerHTML);
+            }
+            fileReader.readAsDataURL(fileToLoad);
+
+
+
+            const ref = firebase.storage().ref();
+            const file = file_data;
+
+            const name = +new Date() + "-" + file.name;
+            const metadata = {
+                contentType: file.type
+            };
+            const task = ref.child(name).put(file, metadata);
+            task.then(snapshot => snapshot.ref.getDownloadURL())
+                .then(url => {
+                    a = url;
+                    console.log(a)
+                    document.getElementById(id).src = url;
+                })
+        }
+
+        function uploadImagBanner() {
+            const ref = firebase.storage().ref();
+            const file = document.querySelector("#files").files[0];
+
+            const name = +new Date() + "-" + file.name;
+            const metadata = {
+                contentType: file.type
+            };
+            const task = ref.child(name).put(file, metadata);
+            task.then(snapshot => snapshot.ref.getDownloadURL())
+                .then(url => {
+                    a = url;
+                    console.log(a)
+                    document.querySelector("#img").src = url;
+                })
+        }
+
+        function DelImg(el) {
+            jQuery(el).closest('li').remove();
+
+        }
+    </script>
+    <script>
+        CKEDITOR.replace('editor1')
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $("#addColor").click(function(){
+                $("#themmau").append("<div> Màu sắc : <input name='color' type='text' style='width: 100px' > Số lượng : <input name='quantity'  type='number' min='1' style='width: 100px' ></div><br>");
+            });
+        });
+    </script>
+    <script>
+        const files = document.querySelector("#files");
+        const reader = new FileReader();
+        files.addEventListener("change", (evt) => {
+            const files = evt.target.files;
+            console.log(files)
+            reader.readAsDataURL(files[0])
+            reader.addEventListener("load", (evt) => {
+                const url = evt.target.result
+                console.log(url)
+                document.getElementById("img").src = url ;
+            })
+        })
+    </script>
+</div>
+
+</body>-
+</html>

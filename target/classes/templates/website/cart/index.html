@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/website/index.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="contentweb">
+    <div class="breadcrumb-area" >
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap">
+                        <nav aria-label="breadcrumb">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item"><a href="shop-grid-left-sidebar.html">shop</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">cart</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb area end -->
+
+    <!-- cart main wrapper start -->
+    <div class="cart-main-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Cart Table Area -->
+                    <div class="cart-table table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th class="pro-thumbnail">Hình ảnh</th>
+                                <th class="pro-title">Sản phẩm</th>
+                                <th class="pro-price">Giá</th>
+                                <th class="pro-quantity">Số lượng</th>
+                                <th class="pro-subtotal">Thành tiền</th>
+                                <th class="pro-remove">Xóa</th>
+                            </tr>
+                            </thead>
+                            <tbody id="dataProduct">
+                            <tr th:each="item:${listProductCart}" th:id="${item.id}">
+                                <td class="pro-thumbnail"><a href="#"><img class="img-fluid"
+                                                                           th:src="${item.products.image}"
+                                                                           alt="Product"/></a></td>
+                                <td class="pro-title" th:name="aaaa" th:text="${item.products.name}"></td>
+                                <td class="pro-price"  ><span th:text="*{#numbers.formatDecimal(item.products.hostSale(), 0, 'COMMA', 0, 'POINT')+'đ'}"></span></td>
+                                <td >
+                                    <button class="btn btn-outline-info" th:attr="onclick=|preQuantity('${item.id}')|" >-</button>
+                                    <input th:id="${item.id+'quantity'}" name="quantity" type="text" th:value="${item.quantity}"
+                                           min="1"  style="width: 40px;height: 40px" readonly >
+                                    <button class="btn btn-outline-info" th:attr="onclick=|nextQuantity('${item.id}')|">+</button>
+<!--                                    <div class="pro-qty" onclick="quantiyProduct(this)"><input  type="text" th:value="${item.quantity}"></div>-->
+                                </td>
+                                <td class="pro-subtotal"><span th:id="${item.id+'SUM'}" th:text="*{#numbers.formatDecimal(item.quantity*item.products.hostSale(), 0, 'COMMA', 0, 'POINT')+'đ'}"></span></td>
+                                <td class="pro-remove"><a  th:attr="onclick=|deleteProduct('${item.id}')|"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Cart Update Option -->
+                    <div class="cart-update-option d-block d-md-flex justify-content-between">
+                        <div class="apply-coupon-wrapper">
+                                <input id="code" type="text" placeholder="Nhậ mã code" />
+                                <button onclick="addVoucher()" class="sqr-btn">Nhập mã khuyến mại</button>
+                            <p class="text-danger" id="errorCode"></p>
+                        </div>
+                        <div class="cart-update mt-sm-16">
+                            <a href="/dienthoaiviet" class="sqr-btn">Mua hàng thêm</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form id="checkOut">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="checkout-billing-details-wrap">
+                        <h2>Thông tin khách hàng</h2>
+                        <div class="billing-form-wrap">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="single-input-item">
+                                            <label for="f_name" class="required">Họ và tên</label>
+                                            <input type="text" id="f_name" placeholder="nhập tên" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="single-input-item">
+                                            <label for="phoneCustomer" class="required">Số điện thoại</label>
+                                            <input type="text" id="phoneCustomer" pattern="(\+84|0)\d{9,10}"  placeholder="nhập số điện thoại" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-input-item">
+                                    <label for="emaiCustomer" class="required">Email</label>
+                                    <input type="email" id="emaiCustomer" placeholder="nhập email" required />
+                                </div>
+                                <div class="single-input-item">
+                                    <label for="addressCustomer" class="required">Địa chỉ</label>
+                                    <input type="text" id="addressCustomer" placeholder="nhập địa chỉ" required />
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 ml-auto">
+                    <!-- Cart Calculation Area -->
+                    <div class="cart-calculator-wrapper">
+                        <div class="cart-calculate-items">
+                            <h3>Hóa đơn thanh toán</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <td>Thành tiền</td>
+                                        <td id="thanhtien" th:text="*{#numbers.formatDecimal(sumMoneyProductCart, 0, 'COMMA', 0, 'POINT')+'đ'}" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Khuyến mại</td>
+                                        <td id="sale">0 đ</td>
+                                    </tr>
+                                    <tr class="total">
+                                        <td>Tổng thanh toán</td>
+                                        <td class="total-amount" id="tongthanhtoan" th:text="*{#numbers.formatDecimal(sumMoneyProductCart, 0, 'COMMA', 0, 'POINT')+'đ'}"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label>Chọn phương thức thanh toán </label>
+                            <select class="form-control"id="productDetails1">
+                                <option value="1" selected>Tiền mặt</option>
+                                <option value="2">Pay</option>
+                            </select>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <button class="btn btn-primary" type="submit" >Đặt Hàng</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+            <br>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            CheckOut()
+        })
+
+        function CheckOut() {
+            $('#checkOut').on("submit", function (e) {
+                e.preventDefault();
+                var fullName = $('#f_name').val();
+                var address = $('#addressCustomer').val();
+                var email = $('#emaiCustomer').val();
+                var phoneNumber = $('#phoneCustomer').val();
+                var sumMoneyTT = document.getElementById("tongthanhtoan").innerHTML
+                var sumMoney = sumMoneyTT.replaceAll(",","").replace("đ","").replace("&nbsp;","")
+                var code = document.getElementById("code").value;
+                if(code==""){
+                    code=0
+                }
+                var check = true;
+                var phuongThucThanhToan = $('#productDetails1').val()
+
+                if (fullName == "") {
+                    $('#errorFullname').text("Bạn chưa nhập họ tên");
+                    check = false;
+                }
+                if (address == "") {
+                    $('#errorAddress').text("Bạn chưa nhập địa chỉ");
+                    check = false;
+                }
+                var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+                if (phoneNumber == "") {
+                    $('#errorPhoneNumber').text("Bạn chưa nhập số điện thoại");
+                    check = false;
+                } else if (vnf_regex.test(phoneNumber) == false) {
+                    $('#errorPhoneNumber').text("Số điện thoại sai định dạng");
+                    check = false;
+                }
+                var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+                if (email == "") {
+                    $('#errorEmail').text("Bạn chưa nhập email");
+                    check = false;
+                } else if (emailReg.test(email) == false) {
+                    $('#errorEmail').text("Email sai định dạng");
+                    check = false;
+                }
+                if (check == true) {
+                    $.ajax({
+                        url: '/dienthoaiviet/cart/checkout',
+                        type: "POST",
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                             customer:{
+                                 fullName:fullName,
+                                 address:address,
+                                 email:email,
+                                 phoneNumber:phoneNumber
+                             },
+                             sumMoney: sumMoney,
+                            code_Customer : code,
+                            payment: phuongThucThanhToan
+
+                        }),
+                        success: function (data) {
+                            if (data.code === '00') {
+                                console.log(2)
+                                if (window.vnpay) {
+                                    vnpay.open({width: 768, height: 600, url: x.data});
+                                    console.log("ok1")
+                                } else {
+                                    window.location.href = data.data;
+                                    console.log("ok2")
+                                }
+                                return false;
+                            }
+                            if(data=="Order Success"){
+                                swal("Đặt hàng thành công. Cảm ơn quý khách", "", "success").then(function (e) {
+                                    if (e) window.location = "/dienthoaiviet";
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+
+        }
+    </script>
+    <script>
+        function addVoucher(){
+            var code=  document.getElementById("code").value;
+            if(code==""){
+                document.getElementById("errorCode").innerHTML="bạn chưa nhập code"
+                return
+            }else {
+                document.getElementById("errorCode").innerHTML=""
+            }
+            $.ajax({
+                url: '/dienthoaiviet/cart/voucher/'+code,
+                type: "Post",
+                contentType: 'application/json',
+                success: function (data) {
+                    if(data==false){
+                        document.getElementById("errorCode").innerHTML="Mã code không tồn tại"
+                        document.getElementById("code").value="";
+                        return
+                    }else {
+                        document.getElementById("errorCode").innerHTML=""
+                        var thanhtien = document.getElementById("thanhtien").innerHTML;
+                        var convertThanhtien = thanhtien.replaceAll(",","").replace("đ","").replace("&nbsp;","")
+                        document.getElementById("sale").innerHTML=money(data.value)
+                        document.getElementById("tongthanhtoan").innerHTML=money(Number(convertThanhtien)-data.value)
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function nextQuantity(id){
+            var idQuantity  = id+ "quantity";
+            var value =document.getElementById(idQuantity).value;
+            document.getElementById(idQuantity).value=Number(value)+1
+            quantiyProduct(idQuantity,id)
+        }
+        function preQuantity(id){
+            var idQuantity  = id+ "quantity";
+            var value =document.getElementById(idQuantity).value;
+            if(Number(value)==1){
+                return;
+            }
+
+            document.getElementById(idQuantity).value=Number(value)-1
+            quantiyProduct(idQuantity,id)
+        }
+        function quantiyProduct(el,id){
+            var quantity = document.getElementById(el).value
+            $.ajax({
+                url: '/dienthoaiviet/cart/editquantity',
+                type: "Post",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    productDetailsId: id,
+                    quantity: quantity
+                    }
+                ),
+                success: function (data) {
+                    if(data==false){
+                        quantity=quantity-1;
+                        document.getElementById(el).value=quantity;
+                        return
+                    }
+                    var strHeader=""
+                    var sum =0;
+                    $.each(data,function (i,item){
+                        if(item.id==id){
+                            var sumProduct =quantity*(1-item.products.discout/100.0)*item.products.price;
+                            var idSum = id+'SUM';
+                            document.getElementById(idSum).innerHTML=money(sumProduct)
+                        }
+                        sum+=item.quantity*(1-item.products.discout/100.0)*item.products.price;
+                        strHeader+="  <li>\n" +
+                            "                                        <div class=\"cart-img\">\n" +
+                            "                                            <a ><img src="+item.products.image+"\n" +
+                            "                                                     alt=\"\"></a>\n" +
+                            "                                        </div>\n" +
+                            "                                        <div class=\"cart-info\">\n" +
+                            "                                            <h4><a>"+item.products.name+"</a></h4>\n";
+                        if(item.products.discout>0){
+                            strHeader+= "<strike >"+item.products.convert_PriceDiscout+"</strike>"
+                        }
+
+                        strHeader+=  "  <span class=\"regular-price\" >"+item.products.convert_Price+"</span>\n" +
+                            "                                        </div>\n" +
+                            "                                        <div class=\"del-icon\">\n" +
+                            "                                            <i class=\"fa fa-times\"><span >"+item.quantity+"</span></i>\n" +
+                            "                                        </div>\n" +
+                            "                                    </li>"
+                    })
+                    strHeader+="    <li class=\"mini-cart-price\">\n" +
+                        "                                        <span class=\"subtotal\">Tổng tiền : </span>\n" +
+                        "                                        <span  class=\"text-danger\">"+money(sum)+"</span>\n" +
+                        "                                    </li>\n" +
+                        "                                    <li class=\"checkout-btn\">\n" +
+                        "                                        <a href=\"/dienthoaiviet/cart\">Đặt Hàng</a>\n" +
+                        "                                    </li>"
+                    document.getElementById("listHeaderProduct").innerHTML=strHeader;
+                    // document.getElementById("dataProduct").innerHTML=str;
+                    document.getElementById("headerQuantity").innerHTML=data.length;
+                    document.getElementById("headerSum").innerHTML=money(sum);
+                    document.getElementById("thanhtien").innerHTML=money(sum);
+                    var sale = document.getElementById("sale").innerHTML;
+                    var moneySale = sale.replaceAll(",","").replace("đ","").replace("&nbsp;","")
+                    document.getElementById("tongthanhtoan").innerHTML=money(sum-Number(moneySale))
+
+                }})
+        }
+    </script>
+    <script>
+        function deleteProduct(id) {
+            $.ajax({
+                url: '/dienthoaiviet/cart/'+id,
+                type: "Delete",
+                contentType: 'application/json',
+                success: function (data) {
+                    str="";
+                    sum = 0;
+                    // $.each(data,function (i,item){
+                    //     console.log(id)
+                    //     str+="<tr>\n" +
+                    //         "                                <td class=\"pro-thumbnail\"><a href=\"#\"><img class=\"img-fluid\"\n" +
+                    //         "                                                                           src=\""+item.products.image+"\"\n" +
+                    //         "                                                                           alt=\"Product\"/></a></td>\n" +
+                    //         "                                <td class=\"pro-title\" >"+item.products.name+"</td>\n" +
+                    //         "                                <td class=\"pro-price\" ><span >"+item.products.convert_PriceDiscout+"</span></td>\n" +
+                    //         "                                <td class=\"pro-quantity\">\n" +
+                    //         "                                   <div class=\"pro-qty\" onclick=\"quantiyProduct()\"><span class=\"dec qtybtn\">-</span><input  type=\"text\"value="+item.quantity+"><span class=\"inc qtybtn\">+</span></div>\n" +
+                    //         "                                </td>\n" +
+                    //         "                                <td class=\"pro-subtotal\"><span>"+money(item.quantity*(1-item.products.discout/100.0)*item.products.price)+"</span></td>\n" +
+                    //         "                                <td class=\"pro-remove\"><a onclick=deleteProduct("+item.id+")|\"><i class=\"fa fa-trash-o\"></i></a></td>\n" +
+                    //         "                            </tr>"
+                    // })
+                    //
+                    var strHeader=""
+                    $.each(data,function (i,item){
+                        sum+=item.quantity*(1-item.products.discout/100.0)*item.products.price;
+                        strHeader+="  <li>\n" +
+                            "                                        <div class=\"cart-img\">\n" +
+                            "                                            <a ><img src="+item.products.image+"\n" +
+                            "                                                     alt=\"\"></a>\n" +
+                            "                                        </div>\n" +
+                            "                                        <div class=\"cart-info\">\n" +
+                            "                                            <h4><a>"+item.products.name+"</a></h4>\n";
+                        if(item.products.discout>0){
+                            strHeader+= "<strike >"+item.products.convert_PriceDiscout+"</strike>"
+                        }
+
+                       strHeader+=  "  <span class=\"regular-price\" >"+item.products.convert_Price+"</span>\n" +
+                            "                                        </div>\n" +
+                            "                                        <div class=\"del-icon\">\n" +
+                            "                                            <i class=\"fa fa-times\"><span >"+item.quantity+"</span></i>\n" +
+                            "                                        </div>\n" +
+                            "                                    </li>"
+                    })
+                    strHeader+="    <li class=\"mini-cart-price\">\n" +
+                        "                                        <span class=\"subtotal\">Tổng tiền : </span>\n" +
+                        "                                        <span  class=\"text-danger\">"+money(sum)+"</span>\n" +
+                        "                                    </li>\n" +
+                        "                                    <li class=\"checkout-btn\">\n" +
+                        "                                        <a href=\"/dienthoaiviet/cart\">Đặt Hàng</a>\n" +
+                        "                                    </li>"
+                    document.getElementById("listHeaderProduct").innerHTML=strHeader;
+                    // document.getElementById("dataProduct").innerHTML=str;
+                    $('#'+id).remove()
+                    document.getElementById("headerQuantity").innerHTML=data.length;
+                    document.getElementById("headerSum").innerHTML=money(sum);
+                    document.getElementById("thanhtien").innerHTML=money(sum);
+                    var sale = document.getElementById("sale").innerHTML;
+                    var moneySale = sale.replaceAll(",","").replace("đ","").replace("&nbsp;","")
+                    console.log(moneySale)
+                    document.getElementById("tongthanhtoan").innerHTML=money(sum-Number(moneySale))
+                }
+            })}
+        function money(b) {
+
+            const value = Number(b);
+            const money = value.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+            });
+            return money.replaceAll(".",",").replaceAll("₫","đ")
+        }
+
+    </script>
+</div>
+</body>
+</html>

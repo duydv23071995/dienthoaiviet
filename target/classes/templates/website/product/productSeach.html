@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/website/index.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="contentweb">
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap">
+                        <nav aria-label="breadcrumb">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">shop left sidebar</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-main-wrapper">
+        <div class="container">
+            <div class="row">
+                <!-- product main wrap start -->
+                <div class="col-12">
+                    <!-- product view wrapper area start -->
+                    <div class="shop-product-wrapper pt-34">
+                        <!-- shop product top wrap start -->
+                        <div class="shop-top-bar">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-6">
+                                    <div class="top-bar-left">
+                                        <div class="product-view-mode mr-70 mr-sm-0">
+                                            <a class="active" href="#" data-target="grid"><i class="fa fa-th"></i></a>
+                                            <a href="#" data-target="list"><i class="fa fa-list"></i></a>
+                                        </div>
+                                        <div class="product-amount">
+                                            <p>Showing 1–16 of 21 results</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-6">
+                                    <div class="top-bar-right">
+                                        <div class="product-short">
+                                            <p>Sort By : </p>
+                                            <select class="nice-select" name="sortby">
+                                                <option value="trending">Tất cả</option>
+                                                <option value="sales">Giá từ thấp đến cao</option>
+                                                <option value="sales">Giá từ cao đến thấp</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shop-product-wrap grid row">
+                            <h4 th:if="${listProductBYkey.isEmpty()}">Không có sản phẩm bạn cần tìm</h4>
+                            <div class="col-lg-3 col-md-4 col-sm-6"  th:each="item:${listProductBYkey}">
+                                <!-- product single grid item start -->
+                                <div class="product-item fix mb-30">
+                                    <div class="product-thumb">
+                                        <a th:href="@{'/dienthoaiviet/'+${item.id}}">
+                                            <img th:src="${item.image}" class="img-pri" alt="">
+                                        </a>
+                                        <div class="product-action-link">
+                                            <a href="#" data-toggle="modal" data-target="#quick_view"> <span
+                                                    data-toggle="tooltip" data-placement="left" title="Quick view"><i
+                                                    class="fa fa-search"></i></span> </a>
+                                            <a href="#" data-toggle="tooltip" data-placement="left" title="Wishlist"><i
+                                                    class="fa fa-heart-o"></i></a>
+                                            <a href="#" data-toggle="tooltip" data-placement="left" title="Compare"><i
+                                                    class="fa fa-refresh"></i></a>
+                                            <a th:href="@{'/dienthoaiviet/'+${item.id}}" data-toggle="tooltip"
+                                               data-placement="left" title="Add to cart"><i
+                                                    class="fa fa-shopping-cart"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <h4><a th:href="@{'/dienthoaiviet/'+${item.id}}" th:text="${item.name}"></a>
+                                        </h4>
+                                        <div class="pricebox">
+                                            <strike th:if="${item.discout>0}"
+                                                    th:text="*{#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')+'đ'}"></strike>
+                                            <span class="regular-price"
+                                                  th:text="*{#numbers.formatDecimal(item.hostSale(), 0, 'COMMA', 0, 'POINT')+'đ'}"></span>
+                                            <div class="ratings">
+                                                <span class="good"><i class="fa fa-star"></i></span>
+                                                <span class="good"><i class="fa fa-star"></i></span>
+                                                <span class="good"><i class="fa fa-star"></i></span>
+                                                <span class="good"><i class="fa fa-star"></i></span>
+                                                <span><i class="fa fa-star"></i></span>
+                                                <div class="pro-review">
+                                                    <span>1 review(s)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- product item end -->
+                    </div>
+                    <!-- product view wrapper area end -->
+
+                    <!-- start pagination area -->
+                    <div class="paginatoin-area text-center pt-28">
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="pagination-box" th:if="${listProductBYkey.size()>12}">
+                                    <li><a class="Previous" href="#">Previous</a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a class="Next" href="#"> Next </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end pagination area -->
+
+                </div>
+                <!-- product main wrap end -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

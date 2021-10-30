@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="product-details-reviews mt-34" th:fragment="product_details">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="product-review-info">
+                <ul class="nav review-tab">
+                    <li>
+                        <a class="active" data-toggle="tab" href="#tab_one">Thông tin chi tiết</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#tab_three">Đánh giá</a>
+                    </li>
+                </ul>
+                <div class="tab-content reviews-tab">
+                    <div class="tab-pane fade show active" id="tab_one">
+                        <div class="tab-one">
+                            [(${product.details})]
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="tab_three">
+                        <!--                        <form id="customerview">-->
+                        <h5 th:text="${product.name}"></h5>
+                        <div class="form-group row">
+                            <div class="col">
+                                <label class="col-form-label"><span class="text-danger">*</span>Họ Và Tên</label>
+                                <input type="text" id="fullName" class="form-control" required>
+                                <p class="text-danger" id="errorName"></p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <label class="col-form-label"><span class="text-danger">*</span>Số điện thoại</label>
+                                <input type="text" id="phone"  class="form-control" required>
+                                <p class="text-danger" id="errorPhone"></p>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <label class="col-form-label"><span class="text-danger">*</span>Nội dung đánh
+                                    giá</label>
+                                <textarea class="form-control" id="note" required></textarea>
+                                <p class="text-danger" id="errorNote"></p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <label class="col-form-label"><span class="text-danger">*</span> Rating</label>
+                                &nbsp;&nbsp;&nbsp; Bad&nbsp;
+                                <input type="radio" value="1" name="rating">
+                                &nbsp;
+                                <input type="radio" value="2" name="rating">
+                                &nbsp;
+                                <input type="radio" value="3" name="rating">
+                                &nbsp;
+                                <input type="radio" value="4" name="rating">
+                                &nbsp;
+                                <input type="radio" value="5" name="rating" checked>
+                                &nbsp;Good
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="sqr-btn" th:attr="onclick=|customerViews('${product.id}')|" >Đánh giá</button>
+                        </div>
+                        <!--                        </form>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="product-review-info">
+                <ul class="nav review-tab">
+                    <li>
+                        <a class="active" data-toggle="tab">Nhận xét về sản phẩm</a>
+                    </li>
+                </ul>
+                <div class="tab-content reviews-tab">
+                    <div class="tab-pane fade show active" id="tab_one1">
+                        <div class="tab-one" id="tabViews">
+                            <div  th:each="item: ${listComent}">
+                                <h5 class="text-success" th:text="${item.name}"></h5>
+                                <span th:text="${item.note}"></span>
+                                <br>
+                                <em th:text="${item.view_date}"></em>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function customerViews(id) {
+            var fullName = $('#fullName').val();
+            var phone = $('#phone').val();
+            var note = $('#note').val()
+            var check =true;
+            if(fullName == ""){
+                document.getElementById("errorName").innerHTML="Bạn chưa nhập tên";
+                check=false
+            }else {
+                document.getElementById("errorName").innerHTML="";
+            }
+            if (note==""){
+                document.getElementById("errorNote").innerHTML="bạn chưa nhập nội dung đánh giá"
+                check=false
+            }else {
+                document.getElementById("errorNote").innerHTML=""
+            }
+            var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+            if (phone == "") {
+               document.getElementById("errorPhone").innerHTML="Bạn chưa nhập số điện thoại"
+                check = false;
+            } else if (vnf_regex.test(phone) == false) {
+                document.getElementById("errorPhone").innerHTML="Bạn nhập số điện thoại sai định dạng"
+                check = false;
+            }else {
+                document.getElementById("errorPhone").innerHTML=""
+            }
+            if(check==false){
+                return
+            }
+            $.ajax({
+                url: '/dienthoaiviet/customer-views/' + id,
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: fullName,
+                    note: note,
+                    phoneNumber: phone
+                }),
+                success: function (data) {
+                    if (data == false) {
+                       alert("đánh giá thất bại")
+                    } else {
+                        str=" <div  >\n" +
+                            "                                <h5 class=\"text-success\">"+data.name+"</h5>\n" +
+                            "                                <span >"+data.note+"</span>\n" +"<br>"+
+                            "                                <em >"+data.view_date+"</em>\n" +
+                            "                                <hr>\n" +
+                            "                            </div>"
+
+                        $('#tabViews').append(str);
+                        document.getElementById("errorPhone").innerHTML="";
+                        document.getElementById("errorNote").innerHTML="";
+                        document.getElementById("errorName").innerHTML="";
+                    }
+                }
+            })
+        }
+    </script>
+</div>
+</body>
+</html>

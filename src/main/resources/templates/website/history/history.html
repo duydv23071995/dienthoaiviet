@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/website/index.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="contentweb">
+    <div class="breadcrumb-area" >
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap">
+                        <nav aria-label="breadcrumb">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item"><a href="shop-grid-left-sidebar.html">shop</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">cart</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cart-main-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Cart Table Area -->
+                    <div class="cart-table table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th class="pro-thumbnail">STT</th>
+                                <th class="pro-title">Mã hóa đơn</th>
+                                <th class="pro-price">ngày mua hàng</th>
+                                <th class="pro-quantity">khuyến mại</th>
+                                <th class="pro-subtotal">Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th class="pro-remove">Xóa</th>
+                            </tr>
+                            </thead>
+                            <tbody id="dataProduct">
+                            <tr th:each="item,index:${listHistory}" th:id="${item.id}">
+                                <td th:text="${index.index +1}"></td>
+                                <td th:text="HD000+${item.id}"></td>
+                                <td th:text="${item.convertDate()}"></td>
+                                <td th:text="${item.voucher == null ? '0đ': item.voucher.conver_value}"></td>
+                                <td  th:text="*{#numbers.formatDecimal(item.sumMoney, 0, 'COMMA', 0, 'POINT')+'đ'}">
+                                <td th:text="${item.converTrangthai()}"></td>
+
+                                </td>
+                                <td>
+                                    <a th:if="${item.status == 0 || item.status==1}" th:onclick="'huyDonHang('+${item.id}+')'"  class="btn btn-danger">Huy đơn hàng</a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+
+    <script>
+        function money(b) {
+
+            const value = Number(b);
+            const money = value.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+            });
+            return money.replaceAll(".",",").replaceAll("₫","đ")
+        }
+    </script>
+</div>
+</body>
+</html>

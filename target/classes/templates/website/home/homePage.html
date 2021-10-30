@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/website/index.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="contentweb">
+    <div th:replace="website/home/slider:: silderWebsite"></div>
+    <div th:replace="website/home/banner:: banner"></div>
+    <div class="page-wrapper pt-6 pb-28 pb-md-6 pb-sm-6 pt-xs-36">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="home-sidebar">
+                        <div th:replace="website/home/hotdeals:: hostDeals"></div>
+                        <div th th:replace="website/home/bestSeller:: betseller"> </div>
+<!--                        <div th:replace="website/home/blog:: blog"></div>-->
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                        <div th:replace="website/home/featured:: featured"></div>
+                    <div class="banner-statistic pt-28 pb-36">
+                        <div class="img-container fix img-full">
+                            <a href="#">
+                                <img src="/website//website/assets/img/banner/banner_static1.jpg" alt="">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div th:replace="website/home/new:: new"></div>
+
+                    <div class="banner-statistic pt-28 pb-30 pb-sm-0">
+                        <div class="row">
+                            <div class="col-lg-7 col-md-7">
+                                <div class="img-container fix img-full mb-sm-30">
+                                    <a href="#">
+                                        <img src="/website/assets/img/banner/banner_static2.jpg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5">
+                                <div class="img-container fix img-full mb-sm-30">
+                                    <a href="#">
+                                        <img src="/website/assets/img/banner/banner_static3.jpg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    <div th:replace="website/home/productAll"></div>-->
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div th:replace="website/home/productother:: productother"></div>
+
+
+</div>
+</body>
+</html>
