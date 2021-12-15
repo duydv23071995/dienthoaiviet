@@ -49,7 +49,7 @@ public class loginControler {
         userLogin.addAttribute("user",user);
         return "login/login";
     }
-    @PostMapping
+    @PostMapping("/oke")
     @ResponseBody
     public boolean checkLogin(@Valid @RequestBody LoginDto user , BindingResult result){
         if(result.hasErrors()){

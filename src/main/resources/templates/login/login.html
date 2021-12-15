@@ -46,15 +46,15 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                 </div>
-                                <form class="user" id="user" th:object="${user}">
+                                <form action="/login" method="post" class="user" id="user" th:object="${user}">
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user"
-                                               id="id" placeholder="Enter Username..." th:value="*{id}" >
+                                               id ="username" name = "username" th:value="*{id}" >
                                         <p id="errorId" class="text-danger"></p>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user"
-                                               id="password" placeholder="Password" th:value="*{password}">
+                                               id="password" name="password" placeholder="Password" th:value="*{password}">
                                         <p id="errorPassword" class="text-danger"></p>
                                     </div>
                                     <div class="form-group">
@@ -93,94 +93,95 @@
     </div>
 
 </div>
-<script>
-    var check = 0;
-    function setCheck(){
-        console.log(1)
-        check =1;
-    }
-    function onSignIn(googleUser) {
-        if(check == 1) {
-            var profile = googleUser.getBasicProfile();
-            console.log(1);
-            console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-            console.log('Full Name: ' + profile.getName());
-            console.log('Given Name: ' + profile.getGivenName());
-            console.log('Family Name: ' + profile.getFamilyName());
-            console.log("Image URL: " + profile.getImageUrl());
-            console.log("Email: " + profile.getEmail());
+<!--<script>-->
+<!--    var check = 0;-->
+<!--    function setCheck(){-->
+<!--        console.log(1)-->
+<!--        check =1;-->
+<!--    }-->
+<!--    function onSignIn(googleUser) {-->
+<!--        if(check == 1) {-->
+<!--            var profile = googleUser.getBasicProfile();-->
+<!--            console.log(1);-->
+<!--            console.log("ID: " + profile.getId()); // Don't send this directly to your server!-->
+<!--            console.log('Full Name: ' + profile.getName());-->
+<!--            console.log('Given Name: ' + profile.getGivenName());-->
+<!--            console.log('Family Name: ' + profile.getFamilyName());-->
+<!--            console.log("Image URL: " + profile.getImageUrl());-->
+<!--            console.log("Email: " + profile.getEmail());-->
 
-            // The ID token you need to pass to your backend:
-            var id_token = googleUser.getAuthResponse().id_token;
-            console.log("ID Token: " + id_token);
-            $.ajax({
-                url: 'login/email/'+profile.getEmail(),
-                type: "POST",
-                success: function (data) {
-                    if(data==true){
-                        window.location.href="/home";
-                        $('#errorUser').text("");
-                    }else {
-                        $('#errorUser').text("Đăng nhập thất bại : email không đúng");
-                    }
-                }
-            })
-            // window.location="<%=request.getContextPath()%>/contact/question?email="+profile.getEmail();
-        }
-    }
-</script>
-<script>
-    $(document).ready(function () {
-        login();
-    })
-    function login() {
-        $('#user').on("submit", function (e) {
-            e.preventDefault();
-            var id = $('#id').val();
-            var passworld = $('#password').val();
-            var remember = $('#customCheck').prop('checked');
-            $('#errorUser').text("");
-            $("#errorId").text("");
-            $("#errorPassword").text("");
-            var check = true;
-            if(id ==""){
-                $("#errorId").text("Id không được bỏ trống!!!");
-                check=false;
-            }else if(parseInt(id) != id || id<0){
-                $("#errorId").text("Id Nhập vào không đúng định dạng!!!");
-                check=false;
-            }
-            if (passworld == "") {
-                $("#errorPassword").text("Password không được bỏ trống!!!");
-                check = false;
-            }
-            // else if(passworld.length>8){
-            //     $("#errorPassword").text("Password không lớn hơn 8 kí tự!!!");
-            //     check = false;
-            // }
-            if(check==true) {
-                $.ajax({
-                    url: 'login',
-                    type: "POST",
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        id: id,
-                        password: passworld,
-                        remember: remember
-                    }),
-                    success: function (data) {
-                        if(data==true){
-                            window.location.href="/home";
-                        }else {
-                           $('#errorUser').text("Đăng nhập thất bại : sai tên tài khoản hoặc mật khẩu");
-                        }
-                    }
-                })
-            }
+<!--            // The ID token you need to pass to your backend:-->
+<!--            var id_token = googleUser.getAuthResponse().id_token;-->
+<!--            console.log("ID Token: " + id_token);-->
+<!--            $.ajax({-->
+<!--                url: 'login/email/'+profile.getEmail(),-->
+<!--                type: "POST",-->
+<!--                success: function (data) {-->
+<!--                    if(data==true){-->
+<!--                        window.location.href="/home";-->
+<!--                        $('#errorUser').text("");-->
+<!--                    }else {-->
+<!--                        $('#errorUser').text("Đăng nhập thất bại : email không đúng");-->
+<!--                    }-->
+<!--                }-->
+<!--            })-->
+<!--            // window.location="<%=request.getContextPath()%>/contact/question?email="+profile.getEmail();-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        login();-->
+<!--    })-->
+<!--    function login() {-->
+<!--        $('#user').on("submit", function (e) {-->
+<!--            e.preventDefault();-->
+<!--            var id = $('#id').val();-->
+<!--            var passworld = $('#password').val();-->
+<!--            var remember = $('#customCheck').prop('checked');-->
+<!--            $('#errorUser').text("");-->
+<!--            $("#errorId").text("");-->
+<!--            $("#errorPassword").text("");-->
+<!--            var check = true;-->
+<!--            if(id ==""){-->
+<!--                $("#errorId").text("Id không được bỏ trống!!!");-->
+<!--                check=false;-->
+<!--            }-->
+<!--            // else if(parseInt(id) != id || id<0){-->
+<!--            //     $("#errorId").text("Id Nhập vào không đúng định dạng!!!");-->
+<!--            //     check=false;-->
+<!--            // }-->
+<!--            if (passworld == "") {-->
+<!--                $("#errorPassword").text("Password không được bỏ trống!!!");-->
+<!--                check = false;-->
+<!--            }-->
+<!--            // else if(passworld.length>8){-->
+<!--            //     $("#errorPassword").text("Password không lớn hơn 8 kí tự!!!");-->
+<!--            //     check = false;-->
+<!--            // }-->
+<!--            if(check==true) {-->
+<!--                $.ajax({-->
+<!--                    url: 'login',-->
+<!--                    type: "POST",-->
+<!--                    contentType: 'application/json',-->
+<!--                    data: JSON.stringify({-->
+<!--                        id: id,-->
+<!--                        password: passworld,-->
+<!--                        remember: remember-->
+<!--                    }),-->
+<!--                    success: function (data) {-->
+<!--                        if(data==true){-->
+<!--                            window.location.href="/home";-->
+<!--                        }else {-->
+<!--                           $('#errorUser').text("Đăng nhập thất bại : sai tên tài khoản hoặc mật khẩu");-->
+<!--                        }-->
+<!--                    }-->
+<!--                })-->
+<!--            }-->
 
-        })
-    }
-</script>
+<!--        })-->
+<!--    }-->
+<!--</script>-->
 
 <!-- Bootstrap core JavaScript-->
 <script src="/login/vendor/jquery/jquery.min.js"></script>

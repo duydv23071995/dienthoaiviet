@@ -99,10 +99,6 @@ public class UserController {
 
     @GetMapping("")
     public String getALL(Model model) {
-        StaffDto staffDto = (StaffDto) session.getAttribute("user");
-        if(staffDto.getRole().getId()!=1){
-            return "redirect:/home";
-        }
         model.addAttribute("listUsers", staffService.findAll());
         return "admin/user/users";
     }

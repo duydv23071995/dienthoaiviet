@@ -30,7 +30,7 @@ public interface ProductsRepository extends JpaRepository<Products,String> {
     @Query("select o from  Products o where o.status=true and o.properties.id=?1")
     List<Products> findAllByIdProperties(Integer id);
 
-    @Query("select o from Products o where o.status=true  and o.category.id not in (1,10)")
+    @Query("select o from Products o where o.status=true  and o.category.id not in (1,2)")
     List<Products> findByIdCategoryOther();
     @Query("select o from Products o where o.status=true and o.price >= ?1 and o.price < ?2")
     List<Products> findByPrice(int priceLow,int expensive);
