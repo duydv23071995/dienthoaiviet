@@ -55,8 +55,8 @@ public class homePageController {
     @GetMapping
     public String home(Model model){
         model.addAttribute("productHost",productservice.findHotsale());
-        model.addAttribute("productSamsung",productservice.findAllByIdCategory(1));
-        model.addAttribute("productIphone",productservice.findAllByIdCategory(2));
+        model.addAttribute("productSamsung",productservice.findAllByIdCategory(2));
+        model.addAttribute("productIphone",productservice.findAllByIdCategory(1));
         model.addAttribute("productOther",productservice.findByIdCategoryOther());
         model.addAttribute("top10product",top10ProductService.findAllBy());
         System.out.println(top10ProductService.findAllBy().size());

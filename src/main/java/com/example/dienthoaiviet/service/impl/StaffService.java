@@ -1,26 +1,17 @@
 package com.example.dienthoaiviet.service.impl;
 
 import com.example.dienthoaiviet.dto.StaffDto;
-import com.example.dienthoaiviet.entity.Role;
 import com.example.dienthoaiviet.entity.Staff;
 import com.example.dienthoaiviet.jpaRepository.StaffRepository;
 import com.example.dienthoaiviet.service.IStaffService;
-import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class StaffService implements IStaffService {
@@ -93,17 +84,5 @@ public class StaffService implements IStaffService {
            return modelMapper.map(staff.get(),StaffDto.class);
        }
        return null;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Staff> staff = staffRepository.findByEmail(username);
-        if(staff.isEmpty()){
-            throw new UsernameNotFoundException("No staff");
-        }
-        Staff staff1 = staff.get();
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(staff1.getRole().getName()));
-        return new User(staff1.getEmail(),staff1.getPassword(),authorities);
     }
 }

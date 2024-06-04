@@ -2,12 +2,11 @@ package com.example.dienthoaiviet.service;
 
 import com.example.dienthoaiviet.dto.StaffDto;
 import com.example.dienthoaiviet.entity.Staff;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IStaffService extends UserDetailsService {
+public interface IStaffService {
     List<StaffDto> findAll();
 
     <S extends Staff> List<S> saveAll(Iterable<S> iterable);

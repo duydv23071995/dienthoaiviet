@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 public class LoginDto {
     private Integer id;
     @NotEmpty
-    @Size(min = 1,max = 8)
+//    @Size(min = 4,max = )
     private String password;
     private boolean remember;
 }
