@@ -1,0 +1,292 @@
+-- auto-generated definition
+create table role
+(
+    id   int auto_increment
+        primary key,
+    name varchar(255) null
+);
+
+-- auto-generated definition
+create table staff
+(
+    id          int auto_increment
+        primary key,
+    address     varchar(255) null,
+    birthday    datetime(6)  null,
+    email       varchar(255) null,
+    fullname    varchar(255) null,
+    gender      bit          not null,
+    image       varchar(255) null,
+    password    varchar(255) null,
+    phonenumber varchar(255) null,
+    salary      bigint       null,
+    status      bit          not null,
+    roleid      int          null,
+    constraint FK4f9qh6cditrqq6uqh9u16by17
+        foreign key (roleid) references role (id)
+);
+-- auto-generated definition
+create table customer
+(
+    id          int auto_increment
+        primary key,
+    address     varchar(255) null,
+    email       varchar(255) null,
+    fullname    varchar(255) null,
+    phonenumber varchar(255) null,
+    status      bit          not null
+);
+
+-- auto-generated definition
+create table category
+(
+    id     int auto_increment
+        primary key,
+    name   varchar(255) null,
+    status bit          null
+);
+-- auto-generated definition
+create table properties
+(
+    id     int auto_increment
+        primary key,
+    name   varchar(255) null,
+    status bit          not null
+);
+
+-- auto-generated definition
+create table voucher
+(
+    id       int auto_increment
+        primary key,
+    code     varchar(255) null,
+    endday   datetime(6)  null,
+    quantity int          not null,
+    startday datetime(6)  null,
+    status   bit          not null,
+    value    int          not null
+);
+
+-- auto-generated definition
+create table products
+(
+    id           varchar(255)  not null
+        primary key,
+    details      varchar(4000) null,
+    discout      int           not null,
+    image        varchar(255)  null,
+    importprice  int           not null,
+    name         varchar(255)  null,
+    price        int           not null,
+    status       bit           not null,
+    categoryid   int           null,
+    propertiesid int           null,
+    constraint FKgql7i991si80kbl0ha386e1ta
+        foreign key (categoryid) references category (id),
+    constraint FKnufa6e0hsyy1r408rnvi1l9ri
+        foreign key (propertiesid) references properties (id)
+);
+
+-- auto-generated definition
+create table products_details
+(
+    id         varchar(255) not null
+        primary key,
+    color      varchar(255) null,
+    quantity   int          not null,
+    productsid varchar(255) null,
+    constraint FK5p4ywlrkkc8r3npnb5vss1gh
+        foreign key (productsid) references products (id)
+);
+
+-- auto-generated definition
+create table importproduct
+(
+    id      int auto_increment
+        primary key,
+    day     datetime(6) null,
+    staffid int         null,
+    constraint FKa02ppiket2kl871nwv0y2sie1
+        foreign key (staffid) references staff (id)
+);
+-- auto-generated definition
+create table importproduct_details
+(
+    id               int auto_increment
+        primary key,
+    quantity         int          not null,
+    importproductid  int          null,
+    productdetailsid varchar(255) null,
+    constraint FKh3dvkrs6uquk8bgytdtc2ckw9
+        foreign key (importproductid) references importproduct (id),
+    constraint FKqr5mb5pyjl80vkqlwxdpiojqc
+        foreign key (productdetailsid) references products_details (id)
+);
+
+-- auto-generated definition
+create table bill
+(
+    id         int auto_increment
+        primary key,
+    day        datetime(6) null,
+    status     int         not null,
+    summoney   int         null,
+    customerid int         null,
+    staffid    int         null,
+    voucherid  int         null,
+    constraint FK5vpfraiv21uni74b4orft8c0a
+        foreign key (staffid) references staff (id),
+    constraint FK9l2wcsn7su3xbvdh5573l3x52
+        foreign key (voucherid) references voucher (id),
+    constraint FKduvsbt91e079yql89g7io0rt4
+        foreign key (customerid) references customer (id)
+);
+
+-- auto-generated definition
+create table bill_details
+(
+    id                 int auto_increment
+        primary key,
+    quantity           int          not null,
+    billid             int          null,
+    products_detailsid varchar(255) null,
+    constraint FKewhtak1wlyixtbrnoqdjtshga
+        foreign key (products_detailsid) references products_details (id),
+    constraint FKij1i58r8rfo1tmrws13vkh3tc
+        foreign key (billid) references bill (id)
+);
+
+-- auto-generated definition
+create table customerviews
+(
+    id          int auto_increment
+        primary key,
+    date        datetime(6)  null,
+    name        varchar(255) null,
+    note        varchar(255) null,
+    phonenumber varchar(255) null,
+    idproduct   varchar(255) null,
+    constraint FKng6kto6fb1nwfsfhoqvno5blf
+        foreign key (idproduct) references products (id)
+);
+
+-- auto-generated definition
+create table image
+(
+    id        int auto_increment
+        primary key,
+    name      varchar(255) null,
+    productid varchar(255) null,
+    constraint FK4pw6o9gyseypangjr47ge5og6
+        foreign key (productid) references products (id)
+);
+
+-- auto-generated definition
+create table top10product
+(
+    id          varchar(255) not null
+        primary key,
+    discout     int          not null,
+    image       varchar(255) null,
+    importprice int          not null,
+    name        varchar(255) null,
+    price       int          not null,
+    quantity    bigint       not null
+);
+(
+    id               int auto_increment
+        primary key,
+    quantity         int          not null,
+    importproductid  int          null,
+    productdetailsid varchar(255) null,
+    constraint FKh3dvkrs6uquk8bgytdtc2ckw9
+        foreign key (importproductid) references importproduct (id),
+    constraint FKqr5mb5pyjl80vkqlwxdpiojqc
+        foreign key (productdetailsid) references products_details (id)
+);
+
+-- auto-generated definition
+create table bill
+(
+    id         int auto_increment
+        primary key,
+    day        datetime(6) null,
+    status     int         not null,
+    summoney   int         null,
+    customerid int         null,
+    staffid    int         null,
+    voucherid  int         null,
+    constraint FK5vpfraiv21uni74b4orft8c0a
+        foreign key (staffid) references staff (id),
+    constraint FK9l2wcsn7su3xbvdh5573l3x52
+        foreign key (voucherid) references voucher (id),
+    constraint FKduvsbt91e079yql89g7io0rt4
+        foreign key (customerid) references customer (id)
+);
+
+-- auto-generated definition
+create table bill_details
+(
+    id                 int auto_increment
+        primary key,
+    quantity           int          not null,
+    billid             int          null,
+    products_detailsid varchar(255) null,
+    constraint FKewhtak1wlyixtbrnoqdjtshga
+        foreign key (products_detailsid) references products_details (id),
+    constraint FKij1i58r8rfo1tmrws13vkh3tc
+        foreign key (billid) references bill (id)
+);
+
+-- auto-generated definition
+create table customerviews
+(
+    id          int auto_increment
+        primary key,
+    date        datetime(6)  null,
+    name        varchar(255) null,
+    note        varchar(255) null,
+    phonenumber varchar(255) null,
+    idproduct   varchar(255) null,
+    constraint FKng6kto6fb1nwfsfhoqvno5blf
+        foreign key (idproduct) references products (id)
+);
+
+-- auto-generated definition
+create table image
+(
+    id        int auto_increment
+        primary key,
+    name      varchar(255) null,
+    productid varchar(255) null,
+    constraint FK4pw6o9gyseypangjr47ge5og6
+        foreign key (productid) references products (id)
+);
+
+-- auto-generated definition
+create table top10product
+(
+    id          varchar(255) not null
+        primary key,
+    discout     int          not null,
+    image       varchar(255) null,
+    importprice int          not null,
+    name        varchar(255) null,
+    price       int          not null,
+    quantity    bigint       not null
+);
+
+
+INSERT INTO didongviet.staff (id, address, birthday, email, fullname, gender, image, password, phonenumber, salary, status, roleid) VALUES (2, 'Hà Nội', '2023-07-15 17:03:28', 'doduy23071995@gmail.com', 'Duy', true, 'faf', '123', '06434541', 1, true, 1);
+INSERT INTO didongviet.staff (id, address, birthday, email, fullname, gender, image, password, phonenumber, salary, status, roleid) VALUES (3, '23 CoNhue', '2023-07-08 07:00:00', 'duydv4.os@tpb.com.vn', 'Duy Đỗ Văn', true, 'https://firebasestorage.googleapis.com/v0/b/dienthoaiviet-31523.appspot.com/o/1689423572785-sg-11134201-22120-eaaejzezvwkvd3.jpg?alt=media&token=3935f7ff-ab59-433d-b6ad-9d27a6c64635', '$2a$10$fB.aBkXchfJ1yuC0XWssVeARCa80okuM4LnBNURpJGPLmd21hbV5a', '0384748015', 10000000, true, 1);
+INSERT INTO didongviet.staff (id, address, birthday, email, fullname, gender, image, password, phonenumber, salary, status, roleid) VALUES (2930, 'So 18 Le Van Luong', '2024-05-30 07:00:00', 'duy23071995@gmail.com', 'Duy Do', true, 'https://firebasestorage.googleapis.com/v0/b/dienthoaiviet-31523.appspot.com/o/1717505042581-z4856774017199_ee6a022289caf777c94ce86fb723ab9b.jpg?alt=media&token=8de49057-17f6-4f0a-b1e7-a7454d9b1610', '$2a$10$zEkV2mU0wRdVlRSOXycfNuuiBqz0E0hfdKFYGkE5Nl7dp1w6BZ8YS', '0989398030', 1522222, true, 1);
+INSERT INTO didongviet.properties (id, name, status) VALUES (1, '32 Gb', true);
+INSERT INTO didongviet.properties (id, name, status) VALUES (2, '64 Gb', true);
+INSERT INTO didongviet.properties (id, name, status) VALUES (3, '128 GB', true);
+INSERT INTO didongviet.properties (id, name, status) VALUES (4, '256 Gb', true);
+
+INSERT INTO didongviet.category (id, name, status) VALUES (1, 'Iphone', true);
+INSERT INTO didongviet.category (id, name, status) VALUES (2, 'Samsung', true);
+INSERT INTO didongviet.category (id, name, status) VALUES (3, 'Xiaomi', true);
+INSERT INTO didongviet.voucher (id, code, endday, quantity, startday, status, value) VALUES (1, 'duytest', '2025-06-16 21:08:22', 11, '2024-06-15 21:08:32', true, 10000);
+
