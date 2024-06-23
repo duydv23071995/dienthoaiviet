@@ -24,4 +24,5 @@ public interface StaffRepository extends JpaRepository<Staff,Integer> {
 
     @Query("select o from Staff o where o.id=?1 and o.status=true")
     Optional<Staff> findById(Integer id);
+    Staff findFirstById(Integer id);
 }

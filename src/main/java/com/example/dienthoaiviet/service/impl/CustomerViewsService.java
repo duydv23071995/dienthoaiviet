@@ -20,11 +20,11 @@ public class CustomerViewsService implements ICustomerViewsService {
 
     @Override
     public List<CustomerViewsDto> findAll(String id) {
-        List<CustomerViewsDto> list = new ArrayList<>();
-        for (CustomerViews x : customerViewsRepository.findAll(id)){
-            list.add(modelMapper.map(x,CustomerViewsDto.class));
-        }
-        return list;
+//        List<CustomerViewsDto> list = new ArrayList<>();
+//        for (CustomerViews x : customerViewsRepository.findAll(id)){
+//            list.add(modelMapper.map(x,CustomerViewsDto.class));
+//        }
+        return new ArrayList<>();
     }
 
     @Override

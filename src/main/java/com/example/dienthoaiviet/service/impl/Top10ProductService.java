@@ -20,12 +20,13 @@ public class Top10ProductService implements ITop10ProductService {
     private Top10ProductRepository top10ProductRepository;
     @Override
     public List<Top10ProductDto> findAllBy() {
-        Pageable pageable = PageRequest.of(0, 10);
-        List<Top10ProductDto> productDtoList = new ArrayList<>();
-        System.out.println(top10ProductRepository.findAllBy(pageable));
-        for (Top10Product x :top10ProductRepository.findAllBy(pageable) ){
-            productDtoList.add(mapper.map(x,Top10ProductDto.class));
-        }
-        return productDtoList;
+//        Pageable pageable = PageRequest.of(0, 10);
+//        List<Top10ProductDto> productDtoList = new ArrayList<>();
+//        System.out.println(top10ProductRepository.findAllBy(pageable));
+//        for (Top10Product x :top10ProductRepository.findAllBy(pageable) ){
+//            productDtoList.add(mapper.map(x,Top10ProductDto.class));
+//        }
+//        return productDtoList;
+        return new ArrayList<>();
     }
 }
