@@ -16,6 +16,8 @@ public class ImportProductDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private int quantity;
+    @Column(name = "price")
+    private int price;
     @ManyToOne @JoinColumn(name = "importproductid")
     private ImportProduct importProduct;
     @ManyToOne @JoinColumn(name = "productdetailsid")

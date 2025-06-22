@@ -122,7 +122,7 @@
           success: function (data) {
             if(data==false){
               swal({
-                title: "Are you sure?",
+                title: "Thông báo",
                 text: "Không có sản phẩm nào!",
                 icon: "warning",
                 dangerMode: true,
@@ -133,6 +133,7 @@
                       "                <th>Tên Sản Phẩm</th>\n" +
                       "                <th>Màu Sắc</th>\n" +
                       "                <th>Số lượng</th>\n" +
+                      "                <th>Giá Nhập</th>\n" +
                       "              </thead>\n" +
                       "              <tbody >";
               $.each(data,function (i,item){
@@ -141,6 +142,7 @@
                 str+="<td>"+ item.products_details.products.name+"</td>";
                 str+="<td>"+ item.products_details.color+"</td>";
                 str+="<td>"+ item.quantity+"</td>";
+                str+="<td>"+ item.priceVnd+"</td>";
                 str+="<tr>";
 
                 // str+="<td>"+ item.quantity+"</td>";

@@ -4,6 +4,8 @@ import com.example.dienthoaiviet.dto.ImportProductDetailsDto;
 import com.example.dienthoaiviet.dto.ImportProductDto;
 import com.example.dienthoaiviet.dto.Products_detailsDto;
 import com.example.dienthoaiviet.dto.StaffDto;
+import com.example.dienthoaiviet.entity.Products;
+import com.example.dienthoaiviet.jpaRepository.ProductsRepository;
 import com.example.dienthoaiviet.service.IImportProductDetailsService;
 import com.example.dienthoaiviet.service.IImportProductService;
 import com.example.dienthoaiviet.service.IProduct_detailsService;
@@ -63,9 +65,12 @@ public class ImportProductController {
              importProductDetails.setImportProduct(importProductDto1);
              importProductDetails.setQuantity(x.getQuantity());
              importProductDetails.setProducts_details(x);
+             importProductDetails.setPrice(x.getPrice());
              iImportProductDetailsService.saveAndFlush(importProductDetails);
              Products_detailsDto products_detailsDto = product_detailsService.getById(x.getId());
-             products_detailsDto.setQuantity(products_detailsDto.getQuantity()+x.getQuantity());
+             int sumToTal =products_detailsDto.getQuantity()+x.getQuantity();
+             products_detailsDto.setQuantity(sumToTal);
+             products_detailsDto.setPrice(x.getPrice());
              product_detailsService.saveAndFlush(products_detailsDto);
          }
 

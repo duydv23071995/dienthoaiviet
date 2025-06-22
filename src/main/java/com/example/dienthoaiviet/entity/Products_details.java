@@ -18,6 +18,8 @@ public class Products_details implements Serializable {
     private String id;
     private String color;
     private int quantity;
+    @Column(name = "price_import")
+    private int price;
     @ManyToOne @JoinColumn(name = "productsid")
     private Products products;
     @OneToMany(mappedBy = "products_details", fetch = FetchType.LAZY)

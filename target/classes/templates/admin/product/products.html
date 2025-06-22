@@ -4,7 +4,7 @@
       layout:decorator="/admin/index.html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>DienThoaiVN</title>
 </head>
 <body>
 <
@@ -49,7 +49,7 @@
                                         <th>STT</th>
                                         <th>Mã Sản Phẩm</th>
                                         <th>Tên Sản Phẩm</th>
-                                        <th>Giá Nhập</th>
+<!--                                        <th>Giá Nhập</th>-->
                                         <th>Giá Bán</th>
                                         <th>Giá Giảm</th>
                                         <th>Dung Lượng</th>
@@ -62,7 +62,7 @@
                                         <td th:text="${index.index +1}"></td>
                                         <td th:text="${item.id}"></td>
                                         <td th:text="${item.name}"></td>
-                                        <td th:text="${item.importprice}"></td>
+<!--                                        <td th:text="${item.importprice}"></td>-->
                                         <td th:text="${item.price}"></td>
                                         <td th:text="${item.discout}"></td>
                                         <td th:text="${item.properties.name}"></td>
@@ -96,7 +96,7 @@
 <script>
     function deleteProduct(id){
         swal({
-            title: "Are you sure?",
+            title: "Thông báo",
             text: "Bạn có chắc muốn xóa sản phẩm không!",
             icon: "warning",
             buttons: true,

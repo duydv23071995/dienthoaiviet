@@ -4,7 +4,7 @@
       layout:decorator="/admin/index.html">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>DienThoaiVN</title>
 </head>
 <body>
 <
@@ -41,7 +41,7 @@
                     <th>STT</th>
                     <th>Mã Sản Phẩm</th>
                     <th>Tên Sản Phẩm</th>
-                    <th>Giá Nhập</th>
+<!--                    <th>Giá Nhập</th>-->
                     <th>Giá Bán</th>
                     <th>Giá Giảm</th>
                     <th>Dung Lượng</th>
@@ -55,8 +55,8 @@
                     <td th:text="${index.index +1}"></td>
                     <td th:text="${item.id}"></td>
                     <td th:text="${item.products.name}"></td>
-                    <td  th:text="*{#numbers.formatDecimal(item.products.importprice, 0, 'COMMA', 0, 'POINT')+'đ'}" ></td>
-                    <td  th:text="*{#numbers.formatDecimal(item.products.price, 0, 'COMMA', 0, 'POINT')+'đ'}"></td>
+<!--                    <td  th:text="*{#numbers.formatDecimal(item.products.importprice, 0, 'COMMA', 0, 'POINT')+'đ'}" ></td>-->
+                    <td  th:text="${item.products.getConvert_PriceVnd}"></td>
                     <td th:text="${item.products.discout}"></td>
                     <td th:text="${item.products.properties.name}"></td>
                     <td th:text="${item.products.category.name}"></td>

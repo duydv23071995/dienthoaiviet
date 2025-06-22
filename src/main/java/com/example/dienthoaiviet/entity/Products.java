@@ -19,7 +19,7 @@ public class Products implements Serializable {
     private String name;
     private int price;
     private  int discout;
-    private int importprice;
+//    private int importprice;
     private String image;
     private  boolean status;
     @ManyToOne @JoinColumn(name = "categoryid")

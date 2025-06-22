@@ -59,7 +59,7 @@
               <div class="wrap">
                 <h4>Chọn Thêm Ảnh</h4>
                 <div class="dandev-reviews">
-                  <div class="form_upload">
+                  <div class="form_upload" style="max-width: 200px; padding: 8px; font-size: 13px; border: 1px solid #ccc;">
                     <label class="dandev_insert_attach"><span>Đính kèm ảnh</span></label>
                   </div>
                   <div class="list_attach">
@@ -101,7 +101,7 @@
                   <div class="col-lg-6">
                     <div class="form-group">
                       <label>Giá Bán</label>
-                      <input class="form-control" id="price" name="price" type="number" value=""/>
+                      <input class="form-control" id="price" name="price" type="text" value=""/>
                     </div>
                     <p class="text-danger" id="errorPrice"></p>
                   </div>
@@ -117,13 +117,18 @@
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-6">
-                    <div class="form-group">
-                      <label>Giá Nhập</label>
-                      <input class="form-control" id="importPrice" name="importPrice" type="number" value=""/>
-                    </div>
-                    <p class="text-danger" id="errorImportPrice" ></p>
+                  <div class="form-group col-md-6">
+                    <label>Hãng</label>
+                    <select  class="form-control" id="categoryId" name="category">
+                      <option value=""> Chọn Hãng</option>
+                      <option  th:each="item: ${listCategory}"
+                               th:value="${item.id}"
+                               th:text="${item.name}"
+                      > </option>
+                    </select>
+                    <p class="text-danger" id="errorCategory"></p>
                   </div>
+
                   <div class="form-group col-md-6">
                     <label>Dung Lượng</label>
                     <select id="memory" class="form-control" name="properties">
@@ -139,25 +144,11 @@
                 </div>
 
                 <div class="row">
-                  <div class="form-group col-md-6">
-                    <label>Hãng</label>
-                    <select  class="form-control" id="categoryId" name="category">
-                      <option value=""> Chọn Hãng</option>
-                      <option  th:each="item: ${listCategory}"
-                               th:value="${item.id}"
-                               th:text="${item.name}"
-                      > </option>
-                    </select>
-                    <p class="text-danger" id="errorCategory"></p>
-                  </div>
-
-
-
                   <div class="col-lg-6" id="themmau">
                     <label> <a type="button" id="addColor">Thêm Chi Tiết sản phẩm</a></label>
                     <div class="addProduct">
                       Màu Sắc : <input name="color" type="text" style="width: 100px " >
-                      Số Lượng: <input name="quantity" value="0" type="number" style="width: 100px" min="1" readonly>
+<!--                       <input name="quantity" value="0" type="number" style="width: 100px" min="1" disabled>-->
                     </div>
                     <p class="text-danger" id="errorColor"></p>
                   </div>
@@ -216,8 +207,8 @@
        var name=$('#name').val();
        var categoryId=$('#categoryId').val();
        var propertiesId=$('#memory').val();
-       var price = $('#price').val();
-       var importPice=$('#importPrice').val();
+       var price = $('#price').val().replace(/[^0-9]/g, '');
+       // var importPice=$('#importPrice').val();
        var discout = $('#discout').val();
        var note =CKEDITOR.instances['editor1'].getData()
                // $('#editor1').val();
@@ -227,7 +218,7 @@
        $('#errorCategory').text("");
        $('#errorName').text("");
        $('#errorPrice').text("");
-       $('#errorImportPrice').text("");
+       // $('#errorImportPrice').text("").replace(/[^0-9]/g, '');
        $('#errorProperties').text("");
        $('#errorDiscout').text("");
        $('#errorPhoto_banner').text("");
@@ -247,13 +238,13 @@
          $('#errorPrice').text("Giá bán phải lơn hơn 1000 đ")
          check=false;
        }
-       if(importPice==""){
-         $('#errorImportPrice').text("Giá nhập không được trống!")
-         check=false;
-       }else if(Number(importPice)<1000){
-         $('#errorImportPrice').text("Giá bán phải lơn hơn 1000 đ")
-         check=false;
-       }
+       // if(importPice==""){
+       //   $('#errorImportPrice').text("Giá nhập không được trống!")
+       //   check=false;
+       // }else if(Number(importPice)<1000){
+       //   $('#errorImportPrice').text("Giá bán phải lơn hơn 1000 đ")
+       //   check=false;
+       // }
        if(discout==""){
          $('#errorDiscout').text("Giá nhập không được trống!")
          check=false;
@@ -284,7 +275,7 @@
              price:price,
              details: note,
              discout: discout,
-             importprice: importPice,
+             // importprice: importPice,
              properties_id: propertiesId,
              category_id: categoryId,
              image: image,
@@ -421,7 +412,7 @@
   <script>
     $(document).ready(function(){
       $("#addColor").click(function(){
-        $("#themmau").append("<div class='addProduct'> Màu sắc : <input name='color' type='text' style='width: 100px' > Số lượng : <input name='quantity'  type='number' min='1' style='width: 100px' ></div><br>");
+        $("#themmau").append("<div class='addProduct'> Màu sắc : <input name='color' type='text' style='width: 100px' ></div><br>");
       });
     });
   </script>
@@ -438,6 +429,36 @@
         document.getElementById("img").src = url ;
       })
     })
+  </script>
+  <script>
+    document.getElementById('price').addEventListener('input', function (e) {
+      const cursorPosition = e.target.selectionStart;
+
+      // Xóa định dạng cũ
+      let rawValue = e.target.value.replace(/\D/g, '');
+
+      // Nếu trống thì không hiển thị gì
+      if (!rawValue) {
+        e.target.value = '';
+        return;
+      }
+
+      // Định dạng lại
+      const formattedValue = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      // Gán giá trị kèm ' VND'
+      e.target.value = formattedValue + ' VND';
+
+      // Đặt lại vị trí con trỏ gần đúng (không hoàn hảo 100%, nhưng đủ dùng)
+      setTimeout(() => {
+        e.target.setSelectionRange(formattedValue.length, formattedValue.length);
+      }, 0);
+    });
+
+    // Xử lý khi focus để loại bỏ VND cho dễ chỉnh sửa
+    // document.getElementById('price').addEventListener('focus', function (e) {
+    //   e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    // });
   </script>
 </div>
 

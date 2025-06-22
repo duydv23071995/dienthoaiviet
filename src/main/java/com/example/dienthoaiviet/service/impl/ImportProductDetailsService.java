@@ -4,6 +4,7 @@ import com.example.dienthoaiviet.dto.ImportProductDetailsDto;
 import com.example.dienthoaiviet.entity.ImportProductDetails;
 import com.example.dienthoaiviet.jpaRepository.ImportProductDetailsRepository;
 import com.example.dienthoaiviet.service.IImportProductDetailsService;
+import com.example.dienthoaiviet.utils.MoneyUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -29,7 +30,9 @@ public class ImportProductDetailsService implements IImportProductDetailsService
     public List<ImportProductDetailsDto> findAllById(Integer id) {
         List<ImportProductDetailsDto> list = new ArrayList<>();
         for (ImportProductDetails x : importProductDetailsRepository.findAllById(id)){
-            list.add(modelMapper.map(x,ImportProductDetailsDto.class));
+            ImportProductDetailsDto importProductDetailsDto =modelMapper.map(x,ImportProductDetailsDto.class);
+            importProductDetailsDto.setPriceVnd(MoneyUtil.getPriceVnd(importProductDetailsDto.getPrice()));
+            list.add(importProductDetailsDto);
         }
         return list;
     }

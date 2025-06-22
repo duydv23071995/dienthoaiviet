@@ -4,7 +4,7 @@
       layout:decorator="/admin/index.html">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>DienThoaiVN</title>
 </head>
 <body>
 <div class="content-page" layout:fragment="content">
@@ -76,12 +76,12 @@
               </div>
               <div id="insertProduct" class="card-body">
                 <div class="row">
-                  <div class="col-lg-4">
+                  <div class="col-lg-2">
                     <div class="form-group">
                       <label>Mã Sản Phẩm</label>
                     </div>
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-lg-2">
                     <div class="form-group">
                       <label>Màu sắc</label>
                     </div>
@@ -89,6 +89,11 @@
                   <div class="col-lg-2">
                     <div class="form-group">
                       <label>Số lượng</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label>Giá nhập</label>
                     </div>
                   </div>
                   <div class="col-lg-2">
@@ -125,10 +130,11 @@
         e.preventDefault();
         var arrId=[];
         var arrQuantity=[]
+        var price=[]
         var dataForm = $(this).serializeArray();
         if(dataForm.length==0) {
           swal({
-            title: "Are you sure?",
+            title: "Thông báo",
             text: "Bạn chưa nhập sản phẩm!",
             icon: "warning",
             dangerMode: true,
@@ -149,10 +155,24 @@
               arrQuantity.push(value)
             }
           }
+          if(name=="price"){
+            console.log("test")
+            if(value==null ){
+              alert("moi nhập lại giá nhập")
+              return
+            }else {
+              value = value.replace(/[^0-9]/g, '')
+              if(value < 1){
+                alert("moi nhập lại giá nhập")
+                return
+              }
+              price.push(value)
+            }
+          }
         }
         var arrData=[]
         for (let i = 0; i < arrId.length; i++) {
-            var data = {id: arrId[i],quantity: arrQuantity[i]}
+            var data = {id: arrId[i],quantity: arrQuantity[i], price: price[i]}
           arrData.push(data)
         }
         $.ajax({
@@ -168,7 +188,9 @@
                 if (e) window.location = "/importproduct"
               })
             } else {
-              alert("Lỗi xóa thất bại")
+              swal("Nhập Thất bại", "", "success").then(function (e) {
+                if (e) window.location = "/importproduct"
+              })
             }
           }
         })
@@ -179,14 +201,14 @@
   <script>
     function addProduct(id,color){
       var a = " <div class=\"row\">\n" +
-              "                  <div class=\"col-lg-4\">\n" +
+              "                  <div class=\"col-lg-2\">\n" +
               "                    <div class=\"form-group\">\n" +
               "                      <input class=\"form-control\" id=\"id\" " +
               "                       value='"+id+"' name=\"id\" type=\"text\" readonly/>\n" +
               "                    </div>\n" +
               "                    <p class=\"text-danger\" id=\"errorId\"></p>\n" +
               "                  </div>\n" +
-              "                  <div class=\"col-lg-4\">\n" +
+              "                  <div class=\"col-lg-2\">\n" +
               "                    <div class=\"form-group\">\n" +
               "                      <span class=\"form-control\">"+color+"</span>\n" +
               "                    </div>\n" +
@@ -194,6 +216,12 @@
               "                  <div class=\"col-lg-2\">\n" +
               "                    <div class=\"form-group\">\n" +
               "                      <input class=\"form-control\" id=\"name\" name=\"quantity\" type=\"number\" value=\"1\" min=\"1\"/>\n" +
+              "                    </div>\n" +
+              "                    <p class=\"text-danger\" id=\"errorName\"></p>\n" +
+              "                  </div>\n" +
+              "                  <div class=\"col-lg-4\">\n" +
+              "                    <div class=\"form-group\">\n" +
+              "                      <input class=\"form-control\" id=\"price\" name=\"price\" type=\"text\" value=\"\" oninput=\"formatPrice(this)\"/>\n" +
               "                    </div>\n" +
               "                    <p class=\"text-danger\" id=\"errorName\"></p>\n" +
               "                  </div>\n" +
@@ -207,6 +235,32 @@
     }
     function remove(el){
       jQuery(el).closest('.row').remove();
+    }
+  </script>
+  <script>
+    function formatPrice(input) {
+      // Lưu vị trí con trỏ
+      const cursorPosition = input.selectionStart;
+
+      // Loại bỏ ký tự không phải số
+      let raw = input.value.replace(/\D/g, '');
+
+      // Nếu rỗng thì xóa nội dung
+      if (!raw) {
+        input.value = '';
+        return;
+      }
+
+      // Thêm dấu phẩy hàng nghìn
+      let formatted = raw.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      // Gán lại giá trị có ' VND'
+      input.value = formatted + ' VND';
+
+      // Đặt lại vị trí con trỏ
+      setTimeout(() => {
+        input.setSelectionRange(formatted.length, formatted.length);
+      }, 0);
     }
   </script>
 </div>

@@ -27,9 +27,9 @@ public class ProductsDto {
     @NotNull
     @DecimalMin("0")
     private  int discout;
-    @NotNull
-    @DecimalMin("1000")
-    private int importprice;
+//    @NotNull
+//    @DecimalMin("1000")
+//    private int importprice;
     @NotNull
     private String image;
     private  boolean status;
@@ -57,6 +57,11 @@ public class ProductsDto {
     public String getConvert_Price() {
         DecimalFormat format = new DecimalFormat("###,###,###");
         return format.format(price)+"đ";
+    }
+
+    public String getConvert_PriceVnd() {
+        DecimalFormat format = new DecimalFormat("###,###,###");
+        return format.format(price)+" VND";
     }
 
 }
