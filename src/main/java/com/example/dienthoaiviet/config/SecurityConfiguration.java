@@ -5,6 +5,7 @@
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.authentication.AuthenticationManager;
 //import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,25 +30,6 @@
 //@Configuration
 //@EnableWebSecurity
 //public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-//    @Autowired
-//    private IStaffService staffService;
-//
-//    @Bean
-//    BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(staffService).passwordEncoder(passwordEncoder());
-//
-////        auth.jdbcAuthentication()
-////                .dataSource(dataSource)
-////                .usersByUsernameQuery("select email, password, status " +
-////                        "from staff where email = ? and status = true")
-////                .authoritiesByUsernameQuery("select email, role.name as'role' from staff join role on staff.roleid =role.id where email = ?")
-////                .passwordEncoder(passwordEncoder());
-//    }
 //
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
@@ -61,13 +43,6 @@
 //
 //        http.authorizeRequests().anyRequest().authenticated();
 //
-//        http.authorizeRequests().and().formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/home")
-//                .failureUrl("/login?admin=true")
-//                .usernameParameter("username")
-//                .passwordParameter("password");
 //
 //        // Cấu hình cho Logout Page.
 //        http.logout()
@@ -90,5 +65,10 @@
 //                , "/login/vendor/**"
 //                , "/website/assets/**"
 //        );
+//    }
+//    @Bean
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
 //    }
 //}

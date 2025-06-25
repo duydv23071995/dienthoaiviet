@@ -86,15 +86,24 @@
                                 </div>
 
                                 <div class="row">
+
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label>Password</label>
-                                            <input class="form-control" id="password" name="password" type="password"
-                                                   value=""/>
+                                            <label>Giới Tính: </label>
+                                            <label class="form-check form-check-inline">
+                                                <input class="form-check-input" id="nam" type="radio" name="gender"
+                                                       value="true">
+                                                <span class="form-check-label"> Nam </span>
+                                            </label>
+                                            <label class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="nu"
+                                                       value="false">
+                                                <span class="form-check-label"> Nữ</span>
+                                            </label>
+                                            <p class="text-danger" id="errorGender"></p>
                                         </div>
-                                        <p class="text-danger" id="errorPassword"></p>
-                                    </div>
 
+                                    </div>
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
@@ -151,26 +160,16 @@
                                     </div>
 
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label>Giới Tính: </label>
-                                            <label class="form-check form-check-inline">
-                                                <input class="form-check-input" id="nam" type="radio" name="gender"
-                                                       value="true">
-                                                <span class="form-check-label"> Nam </span>
-                                            </label>
-                                            <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="nu"
-                                                       value="false">
-                                                <span class="form-check-label"> Nữ</span>
-                                            </label>
-                                            <p class="text-danger" id="errorGender"></p>
-                                        </div>
-
-                                    </div>
-
-                                </div>
+<!--                                <div class="row">-->
+<!--                                    <div class="col-lg-6">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Password</label>-->
+<!--                                            <input class="form-control" id="password" name="password" type="text"-->
+<!--                                                   value="" disabled/>-->
+<!--                                        </div>-->
+<!--                                        <p class="text-danger" id="errorPassword"></p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -236,10 +235,10 @@
                     $('#errorAddress').text("Bạn chưa nhập địa chỉ");
                     check = false;
                 }
-                if (password == "") {
-                    $('#errorPassword').text("Bạn chưa nhập password");
-                    check = false;
-                }
+                // if (password == "") {
+                //     $('#errorPassword').text("Bạn chưa nhập password");
+                //     check = false;
+                // }
                 if (birthday == "") {
                     $('#errorbirthday').text("Bạn chưa nhập ngày sinh");
                     check = false;
@@ -315,7 +314,7 @@
                                 document.getElementById('errorEmail').innerHTML = "Trùng Email";
                             } else {
                                 alert("Thêm nhân viên thành công");
-                                window.location.href="http://localhost:8081/users";
+                                window.location.href="http://localhost:8085/users";
                             }
                         }
                     })

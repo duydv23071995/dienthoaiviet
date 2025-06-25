@@ -97,7 +97,7 @@
         function deleteStaff(id) {
             if (confirm("bạn có chắc chắn muốn xóa nhân viên không")) {
                 $.ajax({
-                    url: 'http://localhost:8081/users/' + id,
+                    url: 'http://localhost:8085/users/' + id,
                     type: "Delete",
                     contentType: 'application/json',
                     success: function (data) {
@@ -105,7 +105,7 @@
                             alert("Lỗi Không thể xóa nhân viên")
                         } else {
                             swal("Thành Công", "Đã chỉnh sửa", "success").then(function (e){
-                                if(e) window.location="http://localhost:8081/users"
+                                if(e) window.location="http://localhost:8085/users"
                             })
                         }
                     }
