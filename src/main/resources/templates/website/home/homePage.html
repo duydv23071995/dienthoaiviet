@@ -59,8 +59,13 @@
         </div>
     </div>
     <div th:replace="website/home/productother:: productother"></div>
-
-
+    <script th:if="${donHangThanhCong == 'success'}">
+        window.onload = function() {
+            swal("Đặt hàng thành công. Cảm ơn quý khách", "", "success").then(function (e) {
+                if (e) window.location = "/dienthoaiviet";
+            })
+        };
+    </script>
 </div>
 </body>
 </html>

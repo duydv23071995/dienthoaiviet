@@ -222,6 +222,8 @@ public class CartController {
                 String cookie = "IdProduct" + x.getId();
                 cookieService.create(cookie, "" + x.getQuantity(), 0);
             }
+            String donghangthanhCong = "donHangThanhCong" ;
+            cookieService.create(donghangthanhCong, "success",1);
             return "redirect:/dienthoaiviet";
         }else {
             return "website/cart/index";

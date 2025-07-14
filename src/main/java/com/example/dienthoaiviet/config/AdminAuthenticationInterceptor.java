@@ -32,6 +32,10 @@ public class AdminAuthenticationInterceptor implements HandlerInterceptor {
                 return false;
             }
         }
+        if(staffDto.getRole().getName().equalsIgnoreCase("Nhân viên bán hàng") && matcher.match("/importproduct/**",path)){
+            response.sendRedirect("/home");
+            return false;
+        }
         return true;
     }
 }

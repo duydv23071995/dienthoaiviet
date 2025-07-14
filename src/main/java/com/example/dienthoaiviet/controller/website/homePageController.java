@@ -61,6 +61,8 @@ public class homePageController {
         model.addAttribute("top10product",top10ProductService.findAllBy());
         System.out.println(top10ProductService.findAllBy().size());
         model.addAttribute("checkMenu", true);
+        model.addAttribute("donHangThanhCong",cookieService.get("donHangThanhCong"));
+        cookieService.create("donHangThanhCong", "success",0);
         return "website/home/homePage";
     }
     @GetMapping("/{id}")
